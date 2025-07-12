@@ -154,7 +154,7 @@
 
 //Modal interor pop up
 
-  function openModal(nombre, tipo, detalle, perfil, producto) {
+  function openModal(nombre, tipo, detalle, perfil, producto, facebook, ig) {
   const modal = document.getElementById('customModal');
   const modalContent = document.getElementById('modalContent');
   modalContent.innerHTML = `
@@ -192,7 +192,7 @@
         ">
         <div style="font-weight: bold; margin-bottom: 15px; text-align: center;">${nombre}</div>
         <div style="display: flex; gap: 10px;">
-          <a href="#" style="
+          <a href="${facebook}" style="
             background-color: #3b5998;
             color: white;
             padding: 8px 12px;
@@ -201,30 +201,22 @@
             font-weight: bold;
             font-family: sans-serif;
           " target="_blank" rel="noopener noreferrer">Facebook</a>
-          <a href="#" style="
-            background-color: #1da1f2;
+          <a href="${ig}" style="
+            background-color: #e4405f;
             color: white;
             padding: 8px 12px;
             border-radius: 5px;
             text-decoration: none;
             font-weight: bold;
             font-family: sans-serif;
-          " target="_blank" rel="noopener noreferrer">Twitter</a>
-          <a href="#" style="
-            background-color: #0077b5;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            font-family: sans-serif;
-          " target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          " target="_blank" rel="noopener noreferrer">Instagram</a>
         </div>
       </div>
     </div>
   `;
   modal.style.display = 'flex';
 }
+
 
 
 
@@ -344,24 +336,23 @@
             iconAnchor: [size / 2, size / 2]
           });
 
-//pop up oculto de mapa 
+//pop up oculto de mapa BLINDPOPUP
 
 
           let marker = L.marker([punto.lat, punto.lng], { icon: createIcon(iconSize) })
-            .bindPopup(`
+          .bindPopup(`
             <div style="display: flex; align-items: center;">
               <img src="${punto.perfil}" alt="Perfil" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
               <div>
                 <h3 style="margin: 0; font-weight: 700; color: ${config.color};">${punto.producto}</h3>
                 <p style="margin: 2px 0 6px; font-weight: 500; font-size: 1.1em;">${punto.nombre}</p>
                 <p style="margin: 0; font-style: italic; color: #aaa;">Tipo: ${cat}</p><br>
-                <button onclick="openModal('${punto.nombre}', '${cat}', \`${punto.detalle}\`, '${punto.perfil}', '${punto.producto}')">Maximizar</button>
+                <button onclick="openModal('${punto.nombre}', '${cat}', \`${punto.detalle}\`, '${punto.perfil}', '${punto.producto}', '${punto.facebook}', '${punto.ig}')">Maximizar</button>
               </div>
             </div>
           `)
+          .addTo(config.layerGroup);
 
-
-              .addTo(config.layerGroup);
 
             // Actualiza el tamaño del icono al hacer zoom
             map.on('zoom', () => {
