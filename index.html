@@ -6,11 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <style>
-    html, body, #map {
+    html, body {
       height: 100%;
       margin: 0;
       background: #000;
     }
+
+    #map {
+      height: 100%;
+      position: relative;
+    }
+
     #legend {
       position: absolute;
       bottom: 20px;
@@ -20,59 +26,76 @@
       padding: 10px;
       border-radius: 5px;
       font-family: sans-serif;
+      z-index: 1000;
+      cursor: pointer;
     }
+
     #legend div {
       margin-bottom: 4px;
+      cursor: pointer;
+    }
+
+    #legend div:hover {
+      background: #333;
     }
   </style>
 </head>
 <body>
-  <div id="map"></div>
-
-  <div id="legend">
-    <strong>Leyenda:</strong><br>
-    <div><span style="display:inline-block;width:12px;height:12px;background:#3498db;margin-right:5px;"></span> Emprendedor</div>
-    <div><span style="display:inline-block;width:12px;height:12px;background:#e74c3c;margin-right:5px;"></span> Cliente</div>
-    <div><span style="display:inline-block;width:12px;height:12px;background:#2ecc71;margin-right:5px;"></span> Proveedor</div>
-    <div><span style="display:inline-block;width:12px;height:12px;background:#f1c40f;margin-right:5px;"></span> Premium</div>
+  <div id="map">
+    <div id="legend">
+      <strong>Leyenda:</strong><br>
+      <div data-cat="emprendedores">
+        <span style="display:inline-block;width:12px;height:12px;background:#3498db;margin-right:5px;"></span> Emprendedor
+      </div>
+      <div data-cat="clientes">
+        <span style="display:inline-block;width:12px;height:12px;background:#e74c3c;margin-right:5px;"></span> Cliente
+      </div>
+      <div data-cat="proveedores">
+        <span style="display:inline-block;width:12px;height:12px;background:#2ecc71;margin-right:5px;"></span> Proveedor
+      </div>
+      <div data-cat="premium">
+        <span style="display:inline-block;width:12px;height:12px;background:#f1c40f;margin-right:5px;"></span> Premium
+      </div>
+    </div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    // Inicializar mapa centrado en El Salvador
     const map = L.map('map').setView([13.720195, -89.201476], 15);
 
-    // Mapa base oscuro
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
       maxZoom: 19,
       attribution: '© OpenStreetMap contributors, © CartoDB'
     }).addTo(map);
 
-    // Configuración por categoría con radios distintos
     const categorias = {
       emprendedores: {
         color: '#3498db',
         radius: 10,
-        archivo: 'emprendedores.json'
+        archivo: 'emprendedores.json',
+        layerGroup: L.layerGroup().addTo(map)
       },
       clientes: {
         color: '#e74c3c',
         radius: 10,
-        archivo: 'clientes.json'
+        archivo: 'clientes.json',
+        layerGroup: L.layerGroup().addTo(map)
       },
       proveedores: {
         color: '#2ecc71',
         radius: 10,
-        archivo: 'proveedores.json'
+        archivo: 'proveedores.json',
+        layerGroup: L.layerGroup().addTo(map)
       },
       premium: {
         color: '#f1c40f',
         radius: 40,
-        archivo: 'premium.json'
+        archivo: 'premium.json',
+        layerGroup: L.layerGroup().addTo(map)
       }
     };
 
-    // Cargar cada JSON y dibujar círculos con su radio único
+    // Cargar los puntos y agregarlos a su LayerGroup
     Object.keys(categorias).forEach(cat => {
       const config = categorias[cat];
       fetch(config.archivo)
@@ -84,11 +107,25 @@
               fillColor: config.color,
               fillOpacity: 0.7,
               radius: config.radius
-            }).addTo(map)
-              .bindPopup(`<b>${punto.nombre}</b><br>Tipo: ${cat}`);
+            }).bindPopup(`<b>${punto.nombre}</b><br>Tipo: ${cat}`)
+              .addTo(config.layerGroup);
           });
         })
         .catch(err => console.error(`Error cargando ${cat}:`, err));
+    });
+
+    // Manejar clics en la leyenda
+    document.querySelectorAll('#legend div[data-cat]').forEach(item => {
+      item.addEventListener('click', () => {
+        const cat = item.getAttribute('data-cat');
+        Object.keys(categorias).forEach(c => {
+          if (c === cat) {
+            map.addLayer(categorias[c].layerGroup);
+          } else {
+            map.removeLayer(categorias[c].layerGroup);
+          }
+        });
+      });
     });
   </script>
 </body>
