@@ -46,28 +46,120 @@
 </head>
 <body>
   <div id="map"></div>
-    <div id="legend">
-      <strong>Marcadores:</strong><br><br>
-      <div data-cat="emprendedores">
-        <span style="display:inline-block;width:12px;height:12px;background:#3498db;margin-right:5px;"></span> Emprendedor
-      </div>
-      <div data-cat="clientes">
-        <span style="display:inline-block;width:12px;height:12px;background:#e74c3c;margin-right:5px;"></span> Cliente
-      </div>
-      <div data-cat="proveedores">
-        <span style="display:inline-block;width:12px;height:12px;background:#2ecc71;margin-right:5px;"></span> Proveedor
-      </div>
-      <div data-cat="premium">
-        <span style="display:inline-block;width:12px;height:12px;background:#f1c40f;margin-right:5px;"></span> Premium
-      </div>
-      <hr style="border: 0; border-top: 1px solid #555;">
-      <div data-cat="all"><strong>Mostrar Todos</strong></div>
+
+<div id="legend">
+  <div id="legend-header" style="cursor: pointer;">
+    <strong>Marcadores (minimizar)</strong><br><br>
+  </div>
+  <div id="legend-content">
+    <div data-cat="emprendedores">
+      <span style="display:inline-block;width:12px;height:12px;background:#3498db;margin-right:5px;"></span> Emprendedor
     </div>
-  
+    <div data-cat="clientes">
+      <span style="display:inline-block;width:12px;height:12px;background:#e74c3c;margin-right:5px;"></span> Cliente
+    </div>
+    <div data-cat="proveedores">
+      <span style="display:inline-block;width:12px;height:12px;background:#2ecc71;margin-right:5px;"></span> Proveedor
+    </div>
+    <div data-cat="premium">
+      <span style="display:inline-block;width:12px;height:12px;background:#f1c40f;margin-right:5px;"></span> Premium
+    </div>
+    <hr style="border: 0; border-top: 1px solid #555;">
+    <div data-cat="all"><strong>Mostrar Todos</strong></div>
+  </div>
+</div>
+
+<!-- pop up json -->
+
+
+<!-- Modal HTML -->
+<div id="customModal" style="
+  display: none; /* <-- Esto es clave */
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+">
+  <div style="
+    background: #fff;
+    color: #000;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow: auto;
+    position: relative;
+  ">
+    <button id="closeModal" style="
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      border: none;
+      background: #333;
+      color: #fff;
+      padding: 5px 10px;
+      cursor: pointer;
+    ">Cerrar</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+
+
+
+
+<script>
+  function openModal(nombre, tipo, detalle) {
+  const modal = document.getElementById('customModal');
+  const modalContent = document.getElementById('modalContent');
+  modalContent.innerHTML = `
+    <h2>${nombre}</h2>
+    <p><strong>Tipo:</strong> ${tipo}</p>
+    <p>${detalle}</p>
+  `;
+  modal.style.display = 'flex';
+}
+
+</script>
+
+<script>
+  document.getElementById('closeModal').addEventListener('click', () => {
+    document.getElementById('customModal').style.display = 'none';
+  });
+</script>
+
+
+
+
+<!-- SCRIP COLAPSAR -->
+
+
+<script>
+  const legend = document.getElementById('legend');
+  const legendHeader = document.getElementById('legend-header');
+  const legendContent = document.getElementById('legend-content');
+
+  legendHeader.addEventListener('click', () => {
+    if (legendContent.style.display === 'none') {
+      legendContent.style.display = 'block';
+    } else {
+      legendContent.style.display = 'none';
+    }
+  });
+</script>
+
+<!-- SCRIP COLAPSAR -->
+
+
+
+<!-- SCRIP MAPA -->
+
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    const map = L.map('map').setView([13.720195, -89.201476], 15);
+    const map = L.map('map').setView([13.720195, -89.201476], 17);
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
       maxZoom: 19,
@@ -109,12 +201,19 @@
         .then(puntos => {
           puntos.forEach(punto => {
             L.circle([punto.lat, punto.lng], {
-              color: config.color,
-              fillColor: config.color,
-              fillOpacity: 0.7,
-              radius: config.radius
-            }).bindPopup(`<b>${punto.nombre}</b><br>Tipo: ${cat}`)
-              .addTo(config.layerGroup);
+            color: config.color,
+            fillColor: config.color,
+            fillOpacity: 0.7,
+            radius: config.radius
+          })
+          .bindPopup(`
+            <b>${punto.nombre}</b><br>
+            Tipo: ${cat}<br><br>
+            <button onclick="openModal('${punto.nombre}', '${cat}', \`${punto.detalle}\`)">Maximizar</button>
+          `)
+          .addTo(config.layerGroup);
+
+
           });
         })
         .catch(err => console.error(`Error cargando ${cat}:`, err));
@@ -167,5 +266,9 @@
       legendItems.forEach(i => i.classList.remove('active'));
     }
   </script>
+
+<!-- SCRIP MAPA -->
+
+
 </body>
 </html>

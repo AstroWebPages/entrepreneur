@@ -1,4 +1,14 @@
 [
-  { "nombre": "Cliente Pedro", "lat": 13.720195, "lng": -89.202476 },
-  { "nombre": "Cliente Laura", "lat": 13.720295, "lng": -89.202476 }
+  {
+    "nombre": "Cliente Pedro",
+    "lat": 13.720195,
+    "lng": -89.202476,
+    "detalle": "Pedro es un cliente premium. Tiene compras recurrentes cada mes y está interesado en servicios personalizados."
+  },
+  {
+    "nombre": "Cliente Laura",
+    "lat": 13.720295,
+    "lng": -89.202476,
+    "detalle": "Laura es una clienta nueva. Está interesada en paquetes básicos y soporte técnico."
+  }
 ]

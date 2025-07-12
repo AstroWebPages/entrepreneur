@@ -1,4 +1,7 @@
 [
-  { "nombre": "Emprendedor Juan", "lat": 13.720195, "lng": -89.201476 },
-  { "nombre": "Emprendedor Ana", "lat": 13.720295, "lng": -89.201476 }
+  { "nombre": "Emprendedor Juan", "lat": 13.720195, "lng": -89.201476,
+    "detalle": "Juan es un cliente premium. Tiene compras recurrentes cada mes y está interesado en servicios personalizados."},
+
+  { "nombre": "Emprendedor Ana", "lat": 13.720295, "lng": -89.201476,
+    "detalle": "Ana es un cliente premium. Tiene compras recurrentes cada mes y está interesado en servicios personalizados." }
 ]
