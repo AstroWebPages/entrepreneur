@@ -198,13 +198,20 @@
 
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script>
+<script>
   const map = L.map('map').setView([13.720195, -89.201476], 17);
 
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
     maxZoom: 19,
     attribution: '© OpenStreetMap contributors, © CartoDB'
   }).addTo(map);
+
+  // Función para calcular metros por pixel en el zoom actual y latitud dada
+  function metrosPorPixelEnZoom(zoom, lat) {
+    const earthCircumference = 40075000; // metros en el ecuador
+    const latRad = lat * Math.PI / 180;
+    return earthCircumference * Math.cos(latRad) / (256 * Math.pow(2, zoom));
+  }
 
   const categorias = {
     emprendedores: {
@@ -233,71 +240,82 @@
     }
   };
 
-  // PUNTO PREMIUM IMAGEN, CORREGIR ESCALA
- Object.keys(categorias).forEach(cat => {
-  const config = categorias[cat];
-  fetch(config.archivo)
-    .then(res => res.json())
-    .then(puntos => {
-      puntos.forEach(punto => {
+  Object.keys(categorias).forEach(cat => {
+    const config = categorias[cat];
+    fetch(config.archivo)
+      .then(res => res.json())
+      .then(puntos => {
+        puntos.forEach(punto => {
+          if (cat === 'premium') {
+            const radiusMeters = config.radius || 50;
 
-        if (cat === 'premium') {
-        // circleMarker con radio fijo en px
-        const circleMarker = L.circleMarker([punto.lat, punto.lng], {
-          radius: 25, // la mitad del tamaño del icono para que coincida visualmente
-          color: config.color,
-          fillColor: config.color,
-          fillOpacity: 0.7,
-        }).addTo(config.layerGroup);
+            // Calcular tamaño inicial del icono en pixeles para el zoom actual
+            let metersPerPixel = metrosPorPixelEnZoom(map.getZoom(), punto.lat);
+            let iconSize = radiusMeters / metersPerPixel * 2; // diámetro en px
 
-        // marcador con icono personalizado del mismo tamaño
-        const iconSize = 50; // debe ser 2 x radius
+            const createIcon = size => L.divIcon({
+            className: 'icon-premium',
+            html: `
+              <svg width="${size}" height="${size}" viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                style="opacity:0.85;">
+                <defs>
+                  <clipPath id="circleView">
+                    <circle cx="50" cy="50" r="48" />
+                  </clipPath>
+                </defs>
+                <!-- Imagen recortada -->
+                <image xlink:href="${punto.icono}"
+                  x="0" y="0" width="100" height="100"
+                  preserveAspectRatio="xMidYMid slice"
+                  clip-path="url(#circleView)"/>
+                <!-- Contorno alrededor -->
+                <circle cx="50" cy="50" r="48"
+                  fill="none" stroke="${config.color}" stroke-width="4"/>
+              </svg>
+            `,
+            iconSize: [size, size],
+            iconAnchor: [size / 2, size / 2]
+          });
 
-        const customIcon = L.divIcon({
-          className: 'icon-premium',
-          html: `<div style="
-                  width: ${iconSize}px;
-                  height: ${iconSize}px;
-                  border-radius: 50%;
-                  background-image: url('${punto.icono}');
-                  background-size: cover;
-                  background-position: center;
-                  opacity: 0.7;
-                "></div>`,
-          iconSize: [iconSize, iconSize],
-          iconAnchor: [iconSize/2, iconSize/2], // centra el icono sobre la posición
+
+
+            let marker = L.marker([punto.lat, punto.lng], { icon: createIcon(iconSize) })
+              .bindPopup(`
+                <b>${punto.nombre}</b><br>
+                Tipo: ${cat}<br><br>
+                <button onclick="openModal('${punto.nombre}', '${cat}', \`${punto.detalle}\`)">Maximizar</button>
+              `)
+              .addTo(config.layerGroup);
+
+            // Actualiza el tamaño del icono al hacer zoom
+            map.on('zoom', () => {
+            const metersPerPixelNow = metrosPorPixelEnZoom(map.getZoom(), punto.lat);
+            const newSize = radiusMeters / metersPerPixelNow * 2;
+
+            marker.setIcon(createIcon(newSize));
+          });
+
+
+          } else {
+            // Código para otras categorías igual
+            L.circle([punto.lat, punto.lng], {
+              color: config.color,
+              fillColor: config.color,
+              fillOpacity: 0.7,
+              radius: config.radius
+            })
+            .bindPopup(`
+              <b>${punto.nombre}</b><br>
+              Tipo: ${cat}<br><br>
+              <button onclick="openModal('${punto.nombre}', '${cat}', \`${punto.detalle}\`)">Maximizar</button>
+            `)
+            .addTo(config.layerGroup);
+          }
         });
-
-        const marker = L.marker([punto.lat, punto.lng], { icon: customIcon })
-          .bindPopup(`
-            <b>${punto.nombre}</b><br>
-            Tipo: ${cat}<br><br>
-            <button onclick="openModal('${punto.nombre}', '${cat}', \`${punto.detalle}\`)">Maximizar</button>
-          `)
-          .addTo(config.layerGroup);
-
-      } else {
-        // círculo normal en metros
-        L.circle([punto.lat, punto.lng], {
-          color: config.color,
-          fillColor: config.color,
-          fillOpacity: 0.7,
-          radius: config.radius
-        })
-        .bindPopup(`
-          <b>${punto.nombre}</b><br>
-          Tipo: ${cat}<br><br>
-          <button onclick="openModal('${punto.nombre}', '${cat}', \`${punto.detalle}\`)">Maximizar</button>
-        `)
-        .addTo(config.layerGroup);
-      }
-
-
-
-      });
-    })
-    .catch(err => console.error(`Error cargando ${cat}:`, err));
-});
+      })
+      .catch(err => console.error(`Error cargando ${cat}:`, err));
+  });
 
 
   // Leyenda y funciones
@@ -347,6 +365,7 @@
     legendItems.forEach(i => i.classList.remove('active'));
   }
 </script>
+
 
 
 <!-- SCRIP MAPA -->
