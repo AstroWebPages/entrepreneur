@@ -75,7 +75,7 @@
 
 <!-- Modal HTML -->
 <div id="customModal" style="
-  display: none; /* <-- Esto es clave */
+  display: none; 
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0,0,0,0.7);
@@ -151,6 +151,9 @@
 <!-- SCRIPT PRODUCTOS -->
 
 <script>
+
+//Modal interor pop up
+
   function openModal(nombre, tipo, detalle) {
   const modal = document.getElementById('customModal');
   const modalContent = document.getElementById('modalContent');
@@ -162,10 +165,7 @@
   modal.style.display = 'flex';
 }
 
-</script>
-
-<script>
-  document.getElementById('closeModal').addEventListener('click', () => {
+    document.getElementById('closeModal').addEventListener('click', () => {
     document.getElementById('customModal').style.display = 'none';
   });
 </script>
@@ -240,6 +240,8 @@
     }
   };
 
+// MARCADOR PREMIUM
+
   Object.keys(categorias).forEach(cat => {
     const config = categorias[cat];
     fetch(config.archivo)
@@ -282,10 +284,16 @@
 
             let marker = L.marker([punto.lat, punto.lng], { icon: createIcon(iconSize) })
               .bindPopup(`
-                <b>${punto.nombre}</b><br>
-                Tipo: ${cat}<br><br>
-                <button onclick="openModal('${punto.nombre}', '${cat}', \`${punto.detalle}\`)">Maximizar</button>
-              `)
+              <div style="display: flex; align-items: center;">
+                <img src="${punto.perfil}" alt="Perfil" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
+                <div>
+                  <b>${punto.nombre}</b><br>
+                  Tipo: ${cat}<br><br>
+                  <button onclick="openModal('${punto.nombre}', '${cat}', \`${punto.detalle}\`)">Maximizar</button>
+                </div>
+              </div>
+            `)
+
               .addTo(config.layerGroup);
 
             // Actualiza el tamaño del icono al hacer zoom
@@ -297,6 +305,9 @@
           });
 
 
+//MARCADORES CATEGORIAS NO PREMIUM (BLIND POP UP)
+
+
           } else {
             // Código para otras categorías igual
             L.circle([punto.lat, punto.lng], {
@@ -306,10 +317,16 @@
               radius: config.radius
             })
             .bindPopup(`
-              <b>${punto.nombre}</b><br>
-              Tipo: ${cat}<br><br>
-              <button onclick="openModal('${punto.nombre}', '${cat}', \`${punto.detalle}\`)">Maximizar</button>
-            `)
+            <div style="display: flex; align-items: center;">
+              <img src="${punto.perfil}" alt="Perfil" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
+              <div>
+                <b>${punto.nombre}</b><br>
+                Tipo: ${cat}<br><br>
+                <button onclick="openModal('${punto.nombre}', '${cat}', \`${punto.detalle}\`)">Maximizar</button>
+              </div>
+            </div>
+          `)
+
             .addTo(config.layerGroup);
           }
         });
