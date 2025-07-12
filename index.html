@@ -127,7 +127,7 @@
   width: 100%;
   max-width: 200px;
   display: block;
-  object-fit: cover; /* 👈 Esto hace el recorte */
+  object-fit: cover; 
 }
 
 
@@ -137,7 +137,18 @@
   }
 }
 
+/* iconos mapa */
+.icon-premium {
+  opacity: 0.7;
+  border-radius: 50%; /* 👈 Obliga forma circular */
+  object-fit: cover;  /* 👈 Recorta internamente */
+}
+
+
+
 </style>
+
+<!-- SCRIPT PRODUCTOS -->
 
 <script>
   function openModal(nombre, tipo, detalle) {
@@ -188,53 +199,76 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    const map = L.map('map').setView([13.720195, -89.201476], 17);
+  const map = L.map('map').setView([13.720195, -89.201476], 17);
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      maxZoom: 19,
-      attribution: '© OpenStreetMap contributors, © CartoDB'
-    }).addTo(map);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap contributors, © CartoDB'
+  }).addTo(map);
 
-    const categorias = {
-      emprendedores: {
-        color: '#3498db',
-        radius: 10,
-        archivo: 'emprendedores.json',
-        layerGroup: L.layerGroup().addTo(map)
-      },
-      clientes: {
-        color: '#e74c3c',
-        radius: 10,
-        archivo: 'clientes.json',
-        layerGroup: L.layerGroup().addTo(map)
-      },
-      proveedores: {
-        color: '#2ecc71',
-        radius: 10,
-        archivo: 'proveedores.json',
-        layerGroup: L.layerGroup().addTo(map)
-      },
-      premium: {
-        color: '#f1c40f',
-        radius: 40,
-        archivo: 'premium.json',
-        layerGroup: L.layerGroup().addTo(map)
-      }
-    };
+  const categorias = {
+    emprendedores: {
+      color: '#3498db',
+      radius: 10,
+      archivo: 'emprendedores.json',
+      layerGroup: L.layerGroup().addTo(map)
+    },
+    clientes: {
+      color: '#e74c3c',
+      radius: 10,
+      archivo: 'clientes.json',
+      layerGroup: L.layerGroup().addTo(map)
+    },
+    proveedores: {
+      color: '#2ecc71',
+      radius: 10,
+      archivo: 'proveedores.json',
+      layerGroup: L.layerGroup().addTo(map)
+    },
+    premium: {
+      color: '#f1c40f',
+      radius: 40,
+      archivo: 'premium.json',
+      layerGroup: L.layerGroup().addTo(map)
+    }
+  };
 
-    // Cargar puntos
-    Object.keys(categorias).forEach(cat => {
-      const config = categorias[cat];
-      fetch(config.archivo)
-        .then(res => res.json())
-        .then(puntos => {
-          puntos.forEach(punto => {
-            L.circle([punto.lat, punto.lng], {
-            color: config.color,
-            fillColor: config.color,
-            fillOpacity: 0.7,
-            radius: config.radius
-          })
+  // PUNTO PREMIUM IMAGEN, CORREGIR ESCALA
+ Object.keys(categorias).forEach(cat => {
+  const config = categorias[cat];
+  fetch(config.archivo)
+    .then(res => res.json())
+    .then(puntos => {
+      puntos.forEach(punto => {
+
+        if (cat === 'premium') {
+        // circleMarker con radio fijo en px
+        const circleMarker = L.circleMarker([punto.lat, punto.lng], {
+          radius: 25, // la mitad del tamaño del icono para que coincida visualmente
+          color: config.color,
+          fillColor: config.color,
+          fillOpacity: 0.7,
+        }).addTo(config.layerGroup);
+
+        // marcador con icono personalizado del mismo tamaño
+        const iconSize = 50; // debe ser 2 x radius
+
+        const customIcon = L.divIcon({
+          className: 'icon-premium',
+          html: `<div style="
+                  width: ${iconSize}px;
+                  height: ${iconSize}px;
+                  border-radius: 50%;
+                  background-image: url('${punto.icono}');
+                  background-size: cover;
+                  background-position: center;
+                  opacity: 0.7;
+                "></div>`,
+          iconSize: [iconSize, iconSize],
+          iconAnchor: [iconSize/2, iconSize/2], // centra el icono sobre la posición
+        });
+
+        const marker = L.marker([punto.lat, punto.lng], { icon: customIcon })
           .bindPopup(`
             <b>${punto.nombre}</b><br>
             Tipo: ${cat}<br><br>
@@ -242,59 +276,78 @@
           `)
           .addTo(config.layerGroup);
 
-
-          });
+      } else {
+        // círculo normal en metros
+        L.circle([punto.lat, punto.lng], {
+          color: config.color,
+          fillColor: config.color,
+          fillOpacity: 0.7,
+          radius: config.radius
         })
-        .catch(err => console.error(`Error cargando ${cat}:`, err));
-    });
+        .bindPopup(`
+          <b>${punto.nombre}</b><br>
+          Tipo: ${cat}<br><br>
+          <button onclick="openModal('${punto.nombre}', '${cat}', \`${punto.detalle}\`)">Maximizar</button>
+        `)
+        .addTo(config.layerGroup);
+      }
 
-    let activeCat = null;
 
-    const legendItems = document.querySelectorAll('#legend div[data-cat]');
-    legendItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const cat = item.getAttribute('data-cat');
 
-        if (cat === 'all') {
+      });
+    })
+    .catch(err => console.error(`Error cargando ${cat}:`, err));
+});
+
+
+  // Leyenda y funciones
+  let activeCat = null;
+
+  const legendItems = document.querySelectorAll('#legend div[data-cat]');
+  legendItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const cat = item.getAttribute('data-cat');
+
+      if (cat === 'all') {
+        showAll();
+        activeCat = null;
+        removeActiveClass();
+      } else {
+        if (activeCat === cat) {
           showAll();
           activeCat = null;
           removeActiveClass();
         } else {
-          if (activeCat === cat) {
-            // Doble click → Mostrar todos
-            showAll();
-            activeCat = null;
-            removeActiveClass();
-          } else {
-            showOnly(cat);
-            activeCat = cat;
-            removeActiveClass();
-            item.classList.add('active');
-          }
+          showOnly(cat);
+          activeCat = cat;
+          removeActiveClass();
+          item.classList.add('active');
         }
-      });
+      }
     });
+  });
 
-    function showAll() {
-      Object.keys(categorias).forEach(c => {
+  function showAll() {
+    Object.keys(categorias).forEach(c => {
+      map.addLayer(categorias[c].layerGroup);
+    });
+  }
+
+  function showOnly(cat) {
+    Object.keys(categorias).forEach(c => {
+      if (c === cat) {
         map.addLayer(categorias[c].layerGroup);
-      });
-    }
+      } else {
+        map.removeLayer(categorias[c].layerGroup);
+      }
+    });
+  }
 
-    function showOnly(cat) {
-      Object.keys(categorias).forEach(c => {
-        if (c === cat) {
-          map.addLayer(categorias[c].layerGroup);
-        } else {
-          map.removeLayer(categorias[c].layerGroup);
-        }
-      });
-    }
+  function removeActiveClass() {
+    legendItems.forEach(i => i.classList.remove('active'));
+  }
+</script>
 
-    function removeActiveClass() {
-      legendItems.forEach(i => i.classList.remove('active'));
-    }
-  </script>
 
 <!-- SCRIP MAPA -->
 

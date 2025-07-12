@@ -3,6 +3,7 @@
     "nombre": "Microsoft Office | Diogo",
     "lat": 13.720195,
     "lng": -89.204476,
+    "icono": "/assets/productos/premium/diogo-office/officewin.jpg",
     "detalle": "<p>Microsoft Office para Windows y Mac.</p>\n<div class='productos-grid'>\n  <div class='producto'>\n    <h4> Microsoft Office Windows</h4>\n    <img src='/assets/productos/premium/diogo-office/officewin.jpg' alt='Producto 1'>\n    <p>Office 365.</p>\n    <a href='https://www.facebook.com/marketplace/item/1130252885784447' target='_blank'>Ver más</a>\n  </div>\n  <div class='producto'>\n    <h4> Microsoft Office Mac </h4>\n    <img src='https://scontent.fsal14-1.fna.fbcdn.net/v/t45.5328-4/499879238_4118147461788080_8983599329704036513_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=247b10&_nc_ohc=7RFoNBpfW80Q7kNvwFddSYr&_nc_oc=AdkvWBo7eSoFtgD9d2tDjs0AA4oPCT_aczd1btaBGB9uMdpD5-N1xGGnls9sv7ISvLA&_nc_zt=23&_nc_ht=scontent.fsal14-1.fna&_nc_gid=uKZAfpfUwljPuOCqo3Jy4Q&oh=00_AfRwomHhGWLx5GMnW9IuSa1mMqbwTae6gDScaZOuKTPMBQ&oe=6877C818' alt='Microsoft Office Mac'>\n    <p>Office 2024.</p>\n    <a href='https://www.facebook.com/marketplace/item/1382540633016469' target='_blank'>Ver más</a>\n  </div>\n</div>"
   }
 ]
