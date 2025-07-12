@@ -18,6 +18,42 @@
       position: relative;
     }
 
+
+    /* HEADER */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 50px;
+      background: #111;
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 0 15px;
+      z-index: 3000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.7);
+      gap: 15px;
+    }
+
+    header .title {
+      font-weight: bold;
+      font-size: 1.2rem;
+      user-select: none;
+    }
+
+    header input[type="search"] {
+      flex-grow: 1;
+      height: 30px;
+      border-radius: 5px;
+      border: none;
+      padding: 0 10px;
+      font-size: 1rem;
+    }
+
+    header input[type="search"]:focus {
+      outline: 2px solid #3498db;
+    }
+
+
     #legend {
       position: absolute;
       bottom: 20px;
@@ -46,6 +82,13 @@
   </style>
 </head>
 <body>
+
+<header>
+  <div class="title">Entrepreneur</div>
+  <input id="searchInput" type="search" placeholder="Buscar por nombre..." />
+</header>
+
+
   <div id="map"></div>
 
 <div id="legend">
@@ -267,9 +310,12 @@
 <!-- SCRIP MAPA -->
 
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-  const map = L.map('map').setView([13.720195, -89.201476], 17);
+  // boton + y - mapa
+  const map = L.map('map', { zoomControl: false }).setView([13.720195, -89.201476], 17);
+  L.control.zoom({ position: 'bottomright' }).addTo(map);
+
 
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
     maxZoom: 19,
@@ -361,6 +407,13 @@ Object.keys(categorias).forEach(cat => {
             `)
             .addTo(config.layerGroup);
 
+            // MARCADOR PARA BUSCADOR
+            config.markers = config.markers || [];
+
+            // Guarda referencia
+            config.markers.push({ marker, punto });
+
+
           map.on('zoom', () => {
             const metersPerPixelNow = metrosPorPixelEnZoom(map.getZoom(), punto.lat);
             const newSize = radiusMeters / metersPerPixelNow * 2;
@@ -429,16 +482,13 @@ Object.keys(categorias).forEach(cat => {
 
       btn.addEventListener("click", () => {
         const message = input.value.trim();
-        if(message === "") {
+        if (message === "") {
           responseDiv.textContent = "Por favor escribe un mensaje.";
           return;
         }
-        // Crear URL para WhatsApp con número y mensaje codificado
-        const phone = punto.tel.replace(/\D/g, ''); // eliminar caracteres no numéricos
+        const phone = punto.tel.replace(/\D/g, '');
         const encodedMessage = encodeURIComponent(message);
         const waUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
-
-        // Abrir WhatsApp en nueva pestaña
         window.open(waUrl, '_blank');
 
         responseDiv.textContent = "Abriendo WhatsApp...";
@@ -446,18 +496,26 @@ Object.keys(categorias).forEach(cat => {
       });
     });
 
+  // ✅ Guarda el marcador correctamente para el buscador
+  config.markers = config.markers || [];
+  config.markers.push({ marker, punto });
+
   // Actualiza el tamaño del icono al hacer zoom
   map.on('zoom', () => {
     const metersPerPixelNow = metrosPorPixelEnZoom(map.getZoom(), punto.lat);
     const newSize = radiusMeters / metersPerPixelNow * 2;
     marker.setIcon(createClienteIcon(newSize));
   });
-} else {
+
+
+
+
+        } else {
 
 
 
           // emprendedores y proveedores círculo con popup normal
-          L.circle([punto.lat, punto.lng], {
+          const circleMarker = L.circle([punto.lat, punto.lng], {
             color: config.color,
             fillColor: config.color,
             fillOpacity: 0.7,
@@ -475,6 +533,12 @@ Object.keys(categorias).forEach(cat => {
             </div>
           `)
           .addTo(config.layerGroup);
+
+          // MARCADOR PARA BUSCADOR
+            config.markers = config.markers || [];
+            config.markers.push({ marker: circleMarker, punto });
+
+
         }
       });
     })
@@ -536,5 +600,69 @@ Object.keys(categorias).forEach(cat => {
 <!-- SCRIP MAPA -->
 
 
+<!-- SCRIPT BUSCADOR -->
+
+<script>
+function filtrarMarcadores(texto) {
+  texto = texto.trim().toLowerCase();
+
+  if (texto === "") {
+    // Mostrar todos si no hay texto
+    Object.keys(categorias).forEach(cat => {
+      const config = categorias[cat];
+      if (!config.markers) return;
+
+      config.markers.forEach(({ marker }) => {
+        if (!map.hasLayer(marker)) map.addLayer(marker);
+      });
+    });
+    return;
+  }
+
+  let algunoMostrado = false;
+
+  Object.keys(categorias).forEach(cat => {
+    const config = categorias[cat];
+    if (!config.markers) return;
+
+    config.markers.forEach(({ marker, punto }) => {
+      const nombre = punto.nombre.toLowerCase();
+      const producto = punto.producto.toLowerCase();
+
+      const coincide = nombre.includes(texto) || producto.includes(texto);
+
+      if (coincide) {
+        if (!map.hasLayer(marker)) map.addLayer(marker);
+        algunoMostrado = true;
+      } else {
+        if (map.hasLayer(marker)) map.removeLayer(marker);
+      }
+    });
+  });
+
+  if (!algunoMostrado) {
+    alert("No se encontró ningún resultado para: " + texto);
+  }
+}
+
+// ESCUCHA ENTER
+const inputBusqueda = document.getElementById('searchInput');
+inputBusqueda.addEventListener('keyup', (e) => {
+  if (e.key === "Enter") {
+    filtrarMarcadores(e.target.value);
+  }
+});
+
+// ESCUCHA VACÍO: restablece todo en tiempo real
+inputBusqueda.addEventListener('input', (e) => {
+  if (e.target.value.trim() === "") {
+    filtrarMarcadores("");
+  }
+});
+</script>
+
+
+
+<!-- SCRIPT BUSCADOR -->
 </body>
 </html>

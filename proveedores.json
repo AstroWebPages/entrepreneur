@@ -1,3 +1,13 @@
 [
-  { "nombre": "Proveedor María", "lat": 13.720195, "lng": -89.203476 }
+  {
+    "nombre": "Akemi Accesorios",
+    "producto": "Pulseras",
+    "lat": 13.720195,
+    "lng": -89.203476,
+    "ig": "https://www.instagram.com/akemi._accesorios/",
+    "facebook": "https://www.facebook.com/marketplace/profile/100009227360806/",
+    "perfil": "https://scontent.cdninstagram.com/v/t51.75761-19/497876472_17843546571489662_9159152761397095081_n.jpg?stp=cp0_dst-jpg_s110x80_tt6&_nc_cat=105&ccb=1-7&_nc_sid=bf7eb4&_nc_ohc=T92nAq5L7aIQ7kNvwFO-tfn&_nc_oc=Adnj3cZy0pGnPUgOaJGSTPa5KCAIm4PsYyX_gCjO6ro-T0Ju_Vu2jYnb-f4oJcy1XPY&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=dMp9Ml2ix4437zd2tVcjvg&oh=00_AfSUM1ummloa4BYf6HWguywW7mZubBEiad1T34lpoUWZdA&oe=68786CDE",
+    "detalle": "<p> 🧸 Accesorios que te hacen lucir genial‼️<br>📍 El Salvador 🇸🇻<br>🍓 Bisutería hecha a mano<br>🌸 Haz tu pedido vía DM </p>\n<div class='productos-grid'>\n  <div class='producto'>\n    <h4> Pulsera Perrito</h4>\n    <img src='/assets/productos/emprendedores/akemi-pulseras/p1.jpg' alt='Producto 1'>\n    <p>Precio: $0.00</p>\n    <a href='https://www.facebook.com/marketplace/item/1130252885784447' target='_blank'>Ver más</a>\n  </div>\n  <div class='producto'>\n    <h4> Pulsera Flor </h4>\n    <img src='/assets/productos/emprendedores/akemi-pulseras/p2.jpg' alt='Pulsera Flor'>\n    <p>Precio: $0.00</p>\n    <a href='https://www.facebook.com/marketplace/item/1382540633016469' target='_blank'>Ver más</a>\n </div>\n  <div class='producto'>\n    <h4> Pulsera Flor </h4>\n    <img src='/assets/productos/emprendedores/akemi-pulseras/p2.jpg' alt='Pulsera Flor'>\n    <p>Precio: $0.00</p>\n    <a href='https://www.facebook.com/marketplace/item/1382540633016469' target='_blank'>Ver más</a>\n </div>\n  <div class='producto'>\n    <h4> Pulsera Flor </h4>\n    <img src='/assets/productos/emprendedores/akemi-pulseras/p2.jpg' alt='Pulsera Flor'>\n    <p>Precio: $0.00</p>\n    <a href='https://www.facebook.com/marketplace/item/1382540633016469' target='_blank'>Ver más</a>\n </div>\n  <div class='producto'>\n    <h4> Pulsera Flor </h4>\n    <img src='/assets/productos/emprendedores/akemi-pulseras/p2.jpg' alt='Pulsera Flor'>\n    <p>Precio: $0.00</p>\n    <a href='https://www.facebook.com/marketplace/item/1382540633016469' target='_blank'>Ver más</a>\n </div>\n</div>"
+
+  }
 ]
