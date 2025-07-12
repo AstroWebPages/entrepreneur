@@ -144,6 +144,19 @@
   object-fit: cover;  /* 👈 Recorta internamente */
 }
 
+/* botones modal */
+
+.buttons-container {
+  display: flex;
+  gap: 10px;
+  flex-direction: row; /* Por defecto lado a lado */
+}
+
+@media (max-width: 600px) {
+  .buttons-container {
+    flex-direction: column; /* En móviles uno arriba del otro */
+  }
+}
 
 
 </style>
@@ -191,7 +204,7 @@
           margin-bottom: 10px;
         ">
         <div style="font-weight: bold; margin-bottom: 15px; text-align: center;">${nombre}</div>
-        <div style="display: flex; gap: 10px;">
+        <div class="buttons-container">
           <a href="${facebook}" style="
             background-color: #3b5998;
             color: white;
@@ -216,6 +229,7 @@
   `;
   modal.style.display = 'flex';
 }
+
 
 
 
