@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mapa Multicategoría con Radios Diferentes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <style>
+    html, body, #map {
+      height: 100%;
+      margin: 0;
+      background: #000;
+    }
+    #legend {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: #222;
+      color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      font-family: sans-serif;
+    }
+    #legend div {
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <div id="legend">
+    <strong>Leyenda:</strong><br>
+    <div><span style="display:inline-block;width:12px;height:12px;background:#3498db;margin-right:5px;"></span> Emprendedor</div>
+    <div><span style="display:inline-block;width:12px;height:12px;background:#e74c3c;margin-right:5px;"></span> Cliente</div>
+    <div><span style="display:inline-block;width:12px;height:12px;background:#2ecc71;margin-right:5px;"></span> Proveedor</div>
+    <div><span style="display:inline-block;width:12px;height:12px;background:#f1c40f;margin-right:5px;"></span> Premium</div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    // Inicializar mapa centrado en El Salvador
+    const map = L.map('map').setView([13.720195, -89.201476], 15);
+
+    // Mapa base oscuro
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap contributors, © CartoDB'
+    }).addTo(map);
+
+    // Configuración por categoría con radios distintos
+    const categorias = {
+      emprendedores: {
+        color: '#3498db',
+        radius: 10,
+        archivo: 'emprendedores.json'
+      },
+      clientes: {
+        color: '#e74c3c',
+        radius: 10,
+        archivo: 'clientes.json'
+      },
+      proveedores: {
+        color: '#2ecc71',
+        radius: 10,
+        archivo: 'proveedores.json'
+      },
+      premium: {
+        color: '#f1c40f',
+        radius: 40,
+        archivo: 'premium.json'
+      }
+    };
+
+    // Cargar cada JSON y dibujar círculos con su radio único
+    Object.keys(categorias).forEach(cat => {
+      const config = categorias[cat];
+      fetch(config.archivo)
+        .then(res => res.json())
+        .then(puntos => {
+          puntos.forEach(punto => {
+            L.circle([punto.lat, punto.lng], {
+              color: config.color,
+              fillColor: config.color,
+              fillOpacity: 0.7,
+              radius: config.radius
+            }).addTo(map)
+              .bindPopup(`<b>${punto.nombre}</b><br>Tipo: ${cat}`);
+          });
+        })
+        .catch(err => console.error(`Error cargando ${cat}:`, err));
+    });
+  </script>
+</body>
+</html>
