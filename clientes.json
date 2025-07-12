@@ -1,14 +1,11 @@
 [
   {
-    "nombre": "Cliente Pedro",
-    "lat": 13.720195,
-    "lng": -89.202476,
-    "detalle": "Pedro es un cliente premium. Tiene compras recurrentes cada mes y está interesado en servicios personalizados."
-  },
-  {
-    "nombre": "Cliente Laura",
-    "lat": 13.720295,
-    "lng": -89.202476,
-    "detalle": "Laura es una clienta nueva. Está interesada en paquetes básicos y soporte técnico."
+    "nombre": "Niña Liliam",
+    "producto": "Busco Anonas",
+    "lat": 13.720975,
+    "lng": -89.204476,
+    "icono": "https://scontent.fsal14-1.fna.fbcdn.net/v/t39.30808-6/481231055_946829420931932_8955176364424149291_n.jpg?stp=dst-jpg_s720x720_tt6&_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=0JW6TcB6UcQQ7kNvwHwUkoP&_nc_oc=AdnapUT7kvPxM858vgJeBzvzvEsY15YScqOOt0tVa_DuFmvN2cNhwUs4ZZlLdHpEnjs&_nc_zt=23&_nc_ht=scontent.fsal14-1.fna&_nc_gid=jx8_yxlGo-L9GnGlTMq6JA&oh=00_AfR6cYoo2_2E_LGWSVcWquJrgkuGX9ybnPshaS5_BhQY7w&oe=687892E1",
+    "perfil": "/assets/productos/clientes/ninaliliam-anonas/perfil.jpeg",
+    "tel": "50378013735"
   }
 ]

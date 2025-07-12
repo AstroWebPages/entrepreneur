@@ -310,22 +310,21 @@
     }
   };
 
-// MARCADOR PREMIUM
+// CONFIGURACION MARCADORES
 
-  Object.keys(categorias).forEach(cat => {
-    const config = categorias[cat];
-    fetch(config.archivo)
-      .then(res => res.json())
-      .then(puntos => {
-        puntos.forEach(punto => {
-          if (cat === 'premium') {
-            const radiusMeters = config.radius || 50;
+Object.keys(categorias).forEach(cat => {
+  const config = categorias[cat];
+  fetch(config.archivo)
+    .then(res => res.json())
+    .then(puntos => {
+      puntos.forEach(punto => {
 
-            // Calcular tamaño inicial del icono en pixeles para el zoom actual
-            let metersPerPixel = metrosPorPixelEnZoom(map.getZoom(), punto.lat);
-            let iconSize = radiusMeters / metersPerPixel * 2; // diámetro en px
+        if (cat === 'premium') {
+          const radiusMeters = config.radius || 50;
+          let metersPerPixel = metrosPorPixelEnZoom(map.getZoom(), punto.lat);
+          let iconSize = radiusMeters / metersPerPixel * 2;
 
-            const createIcon = size => L.divIcon({
+          const createIcon = size => L.divIcon({
             className: 'icon-premium',
             html: `
               <svg width="${size}" height="${size}" viewBox="0 0 100 100"
@@ -336,12 +335,10 @@
                     <circle cx="50" cy="50" r="48" />
                   </clipPath>
                 </defs>
-                <!-- Imagen recortada -->
                 <image xlink:href="${punto.icono}"
                   x="0" y="0" width="100" height="100"
                   preserveAspectRatio="xMidYMid slice"
                   clip-path="url(#circleView)"/>
-                <!-- Contorno alrededor -->
                 <circle cx="50" cy="50" r="48"
                   fill="none" stroke="${config.color}" stroke-width="4"/>
               </svg>
@@ -350,10 +347,122 @@
             iconAnchor: [size / 2, size / 2]
           });
 
-//pop up oculto de mapa BLINDPOPUP
-
-
           let marker = L.marker([punto.lat, punto.lng], { icon: createIcon(iconSize) })
+            .bindPopup(`
+              <div style="display: flex; align-items: center;">
+                <img src="${punto.perfil}" alt="Perfil" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
+                <div>
+                  <h3 style="margin: 0; font-weight: 700; color: ${config.color};">${punto.producto}</h3>
+                  <p style="margin: 2px 0 6px; font-weight: 500; font-size: 1.1em;">${punto.nombre}</p>
+                  <p style="margin: 0; font-style: italic; color: #aaa;">Tipo: ${cat}</p><br>
+                  <button onclick="openModal('${punto.nombre}', '${cat}', \`${punto.detalle}\`, '${punto.perfil}', '${punto.producto}', '${punto.facebook}', '${punto.ig}')">Maximizar</button>
+                </div>
+              </div>
+            `)
+            .addTo(config.layerGroup);
+
+          map.on('zoom', () => {
+            const metersPerPixelNow = metrosPorPixelEnZoom(map.getZoom(), punto.lat);
+            const newSize = radiusMeters / metersPerPixelNow * 2;
+            marker.setIcon(createIcon(newSize));
+          });
+
+        } else if (cat === 'clientes') {
+  const radiusMeters = 10;  // tamaño radio en metros fijo para clientes
+  let metersPerPixel = metrosPorPixelEnZoom(map.getZoom(), punto.lat);
+  let iconSize = radiusMeters / metersPerPixel * 2;
+
+  const createClienteIcon = size => L.divIcon({
+    className: 'icon-cliente',
+    html: `
+      <svg width="${size}" height="${size}" viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+        style="opacity:0.85;">
+        <defs>
+          <clipPath id="circleViewCliente">
+            <circle cx="50" cy="50" r="48" />
+          </clipPath>
+        </defs>
+        <image xlink:href="${punto.icono}"
+          x="0" y="0" width="100" height="100"
+          preserveAspectRatio="xMidYMid slice"
+          clip-path="url(#circleViewCliente)"/>
+        <circle cx="50" cy="50" r="48"
+          fill="none" stroke="red" stroke-width="4"/>
+      </svg>
+    `,
+    iconSize: [size, size],
+    iconAnchor: [size / 2, size / 2]
+  });
+
+  let marker = L.marker([punto.lat, punto.lng], { icon: createClienteIcon(iconSize) })
+    .bindPopup(`
+      <div style="width: 250px;">
+        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+          <div style="
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid red;
+            flex-shrink: 0;
+            margin-right: 10px;
+          ">
+            <img src="${punto.perfil}" alt="Perfil" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <h3 style="margin: 0; color: red;">${punto.nombre}</h3>
+        </div>
+        <p style="font-style: italic; color: #555; margin-bottom: 10px;">${punto.producto}</p>
+        <textarea id="chatInput" rows="4" style="width: 100%; resize: none;" placeholder="Escribe tu mensaje..."></textarea>
+        <button id="sendChatBtn" style="margin-top: 5px; width: 100%; padding: 8px; background: red; color: white; border: none; border-radius: 5px; cursor: pointer;">
+          Enviar
+        </button>
+        <div id="chatResponse" style="margin-top: 10px; font-size: 0.9em; color: green;"></div>
+      </div>
+    `)
+    .addTo(config.layerGroup)
+    .on("popupopen", function(e) {
+      const popupNode = e.popup.getElement();
+      const btn = popupNode.querySelector("#sendChatBtn");
+      const input = popupNode.querySelector("#chatInput");
+      const responseDiv = popupNode.querySelector("#chatResponse");
+
+      btn.addEventListener("click", () => {
+        const message = input.value.trim();
+        if(message === "") {
+          responseDiv.textContent = "Por favor escribe un mensaje.";
+          return;
+        }
+        // Crear URL para WhatsApp con número y mensaje codificado
+        const phone = punto.tel.replace(/\D/g, ''); // eliminar caracteres no numéricos
+        const encodedMessage = encodeURIComponent(message);
+        const waUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
+
+        // Abrir WhatsApp en nueva pestaña
+        window.open(waUrl, '_blank');
+
+        responseDiv.textContent = "Abriendo WhatsApp...";
+        input.value = "";
+      });
+    });
+
+  // Actualiza el tamaño del icono al hacer zoom
+  map.on('zoom', () => {
+    const metersPerPixelNow = metrosPorPixelEnZoom(map.getZoom(), punto.lat);
+    const newSize = radiusMeters / metersPerPixelNow * 2;
+    marker.setIcon(createClienteIcon(newSize));
+  });
+} else {
+
+
+
+          // emprendedores y proveedores círculo con popup normal
+          L.circle([punto.lat, punto.lng], {
+            color: config.color,
+            fillColor: config.color,
+            fillOpacity: 0.7,
+            radius: config.radius
+          })
           .bindPopup(`
             <div style="display: flex; align-items: center;">
               <img src="${punto.perfil}" alt="Perfil" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
@@ -366,46 +475,12 @@
             </div>
           `)
           .addTo(config.layerGroup);
+        }
+      });
+    })
+    .catch(err => console.error(`Error cargando ${cat}:`, err));
+});
 
-
-            // Actualiza el tamaño del icono al hacer zoom
-            map.on('zoom', () => {
-            const metersPerPixelNow = metrosPorPixelEnZoom(map.getZoom(), punto.lat);
-            const newSize = radiusMeters / metersPerPixelNow * 2;
-
-            marker.setIcon(createIcon(newSize));
-          });
-
-
-//MARCADORES CATEGORIAS NO PREMIUM (BLIND POP UP)
-
-
-          } else {
-            // Código para otras categorías igual
-            L.circle([punto.lat, punto.lng], {
-              color: config.color,
-              fillColor: config.color,
-              fillOpacity: 0.7,
-              radius: config.radius
-            })
-            .bindPopup(`
-            <div style="display: flex; align-items: center;">
-              <img src="${punto.perfil}" alt="Perfil" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
-              <div>
-                <h3 style="margin: 0; font-weight: 700; color: ${config.color};">${punto.producto}</h3>
-                <p style="margin: 2px 0 6px; font-weight: 500; font-size: 1.1em;">${punto.nombre}</p>
-                <p style="margin: 0; font-style: italic; color: #aaa;">Tipo: ${cat}</p><br>
-                <button onclick="openModal('${punto.nombre}', '${cat}', \`${punto.detalle}\`, '${punto.perfil}', '${punto.producto}')">Maximizar</button>
-              </div>
-            </div>
-          `)
-
-            .addTo(config.layerGroup);
-          }
-        });
-      })
-      .catch(err => console.error(`Error cargando ${cat}:`, err));
-  });
 
 
   // Leyenda y funciones
