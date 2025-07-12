@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Entrepreneur CEFIE</title>
+  <link rel="icon" href="/assets/productos/premium/diogo-office/officewin.jpg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <style>
@@ -107,8 +108,33 @@
 </div>
 
 
+<!-- css productos json -->
 
+<style>
+.productos-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
 
+.producto {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.producto img {
+  width: 100%;
+  max-width: 200px;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .productos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+</style>
 
 <script>
   function openModal(nombre, tipo, detalle) {

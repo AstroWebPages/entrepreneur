@@ -3,6 +3,6 @@
     "nombre": "Premium Luis",
     "lat": 13.720195,
     "lng": -89.204476,
-    "detalle": "<p>Pedro es un cliente premium. Tiene compras recurrentes cada mes y está interesado en servicios personalizados.</p>\n<div style='border:1px solid #ccc; padding:10px; margin:10px 0;'>\n<h4>Producto 1</h4>\n<img src='https://via.placeholder.com/150' alt='Producto 1' style='width:100%; max-width:200px; display:block;'>\n<p>Descripción breve del producto 1.</p>\n<a href='https://tu-tienda.com/producto-1' target='_blank'>Ver más</a>\n</div>\n<div style='border:1px solid #ccc; padding:10px; margin:10px 0;'>\n<h4>Producto 2</h4>\n<img src='https://via.placeholder.com/150' alt='Producto 2' style='width:100%; max-width:200px; display:block;'>\n<p>Descripción breve del producto 2.</p>\n<a href='https://tu-tienda.com/producto-2' target='_blank'>Ver más</a>\n</div>"
+    "detalle": "<p>Microsoft Office para Windows y Mac.</p>\n<div class='productos-grid'>\n  <div class='producto'>\n    <h4>Producto 1</h4>\n    <img src='/assets/productos/premium/diogo-office/officewin.jpg' alt='Producto 1'>\n    <p>Office 365.</p>\n    <a href='https://www.facebook.com/marketplace/item/1130252885784447' target='_blank'>Ver más</a>\n  </div>\n  <div class='producto'>\n    <h4>Producto 2</h4>\n    <img src='https://via.placeholder.com/150' alt='Producto 2'>\n    <p>Descripción breve del producto 2.</p>\n    <a href='https://tu-tienda.com/producto-2' target='_blank'>Ver más</a>\n  </div>\n</div>"
   }
 ]
