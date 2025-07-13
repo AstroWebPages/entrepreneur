@@ -2,9 +2,38 @@
 // FUNCIONES MODAL PRODUCTOS
 // ------------------------
 
-function openModal(nombre, tipo, detalle, perfil, producto, facebook, ig) {
+function openModal(nombre, tipo, detalle, perfil, producto, facebook, ig, whatsapp, linkedin) {
   const modal = document.getElementById('customModal');
   const modalContent = document.getElementById('modalContent');
+
+  let redesHtml = '';
+
+  // Solo si existe y no está vacío
+  if (facebook && facebook.trim() !== '' && facebook !== 'undefined') {
+    redesHtml += `
+      <a href="${facebook}" style="background-color: #3b5998; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none; font-weight: bold; font-family: sans-serif;" target="_blank" rel="noopener noreferrer">Facebook</a>
+    `;
+  }
+
+  if (ig && ig.trim() !== '' && ig !== 'undefined') {
+    redesHtml += `
+      <a href="${ig}" style="background-color: #e4405f; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none; font-weight: bold; font-family: sans-serif;" target="_blank" rel="noopener noreferrer">Instagram</a>
+    `;
+  }
+
+  if (whatsapp && whatsapp.trim() !== '' && whatsapp !== 'undefined') {
+    // Si ya viene como URL completa, úsala
+    let whatsappUrl = whatsapp.includes('http') ? whatsapp : `https://${whatsapp}`;
+    redesHtml += `
+      <a href="${whatsappUrl}" style="background-color: #25D366; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none; font-weight: bold; font-family: sans-serif;" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+    `;
+  }
+
+  if (linkedin && linkedin.trim() !== '' && linkedin !== 'undefined') {
+    redesHtml += `
+      <a href="${linkedin}" style="background-color: #0077b5; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none; font-weight: bold; font-family: sans-serif;" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    `;
+  }
 
   modalContent.innerHTML = `
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-height: 80vh; overflow-y: auto; align-items: start;">
@@ -17,16 +46,13 @@ function openModal(nombre, tipo, detalle, perfil, producto, facebook, ig) {
       <div style="position: sticky; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; justify-content: flex-start; align-items: center; max-height: 80vh; overflow: hidden;">
         <img src="${perfil}" alt="Perfil" style="max-width: 100%; max-height: 300px; border-radius: 50%; object-fit: cover; margin-bottom: 10px;">
         <div style="font-weight: bold; margin-bottom: 15px; text-align: center;">${nombre}</div>
-        <div class="buttons-container">
-          <a href="${facebook}" style="background-color: #3b5998; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none; font-weight: bold; font-family: sans-serif;" target="_blank" rel="noopener noreferrer">Facebook</a>
-          <a href="${ig}" style="background-color: #e4405f; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none; font-weight: bold; font-family: sans-serif;" target="_blank" rel="noopener noreferrer">Instagram</a>
-        </div>
+        ${redesHtml !== '' ? `<div class="buttons-container">${redesHtml}</div>` : ''}
       </div>
     </div>
   `;
+
   modal.style.display = 'flex';
 
-  // Activa botones "fake-pay-btn" dentro del modal
   modal.querySelectorAll('.fake-pay-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const producto = btn.getAttribute('data-producto');
@@ -35,6 +61,8 @@ function openModal(nombre, tipo, detalle, perfil, producto, facebook, ig) {
     });
   });
 }
+
+
 
 // Evento para cerrar modal
 document.getElementById('closeModal').addEventListener('click', () => {
@@ -151,7 +179,18 @@ Object.keys(categorias).forEach(cat => {
                   <h3 style="margin: 0; font-weight: 700; color: ${config.color};">${punto.producto}</h3>
                   <p style="margin: 2px 0 6px; font-weight: 500; font-size: 1.1em;">${punto.nombre}</p>
                   <p style="margin: 0; font-style: italic; color: #aaa;">Tipo: ${cat}</p><br>
-                  <button onclick="openModal('${punto.nombre}', '${cat}', \`${punto.detalle}\`, '${punto.perfil}', '${punto.producto}', '${punto.facebook}', '${punto.ig}')">Maximizar</button>
+                  <button onclick="openModal(
+                  '${punto.nombre}', 
+                  '${cat}', 
+                  \`${punto.detalle}\`, 
+                  '${punto.perfil}', 
+                  '${punto.producto}', 
+                  '${punto.facebook || ''}', 
+                  '${punto.ig || ''}', 
+                  '${punto.whatsapp || ''}', 
+                  '${punto.linkedin || ''}'
+                )">Maximizar</button>
+
                 </div>
               </div>
             `)
@@ -317,8 +356,19 @@ Object.keys(categorias).forEach(cat => {
                 <h3 style="margin: 0; font-weight: 700; color: ${config.color};">${punto.producto}</h3>
                 <p style="margin: 2px 0 6px; font-weight: 500; font-size: 1.1em;">${punto.nombre}</p>
                 <p style="margin: 0; font-style: italic; color: #aaa;">Tipo: ${cat}</p><br>
-                <button onclick="openModal('${punto.nombre}', '${cat}', \`${punto.detalle}\`, '${punto.perfil}', '${punto.producto}', '${punto.facebook}', '${punto.ig}')">Maximizar</button>
-              </div>
+                <button onclick="openModal(
+                  '${punto.nombre}', 
+                  '${cat}', 
+                  \`${punto.detalle}\`, 
+                  '${punto.perfil}', 
+                  '${punto.producto}', 
+                  '${punto.facebook || ''}', 
+                  '${punto.ig || ''}', 
+                  '${punto.whatsapp || ''}', 
+                  '${punto.linkedin || ''}'
+                )">Maximizar</button>
+
+                </div>
             </div>
           `)
           .addTo(config.layerGroup)
