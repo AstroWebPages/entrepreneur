@@ -450,51 +450,93 @@ Object.keys(categorias).forEach(cat => {
 
   let marker = L.marker([punto.lat, punto.lng], { icon: createClienteIcon(iconSize) })
     .bindPopup(`
-      <div style="width: 250px;">
-        <div style="display: flex; align-items: center; margin-bottom: 10px;">
-          <div style="
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid red;
-            flex-shrink: 0;
-            margin-right: 10px;
-          ">
-            <img src="${punto.perfil}" alt="Perfil" style="width: 100%; height: 100%; object-fit: cover; display: block;">
-          </div>
-          <h3 style="margin: 0; color: red;">${punto.nombre}</h3>
+    <div style="width: 250px;">
+      <div style="display: flex; align-items: center; margin-bottom: 10px;">
+        <div style="
+          width: 50px; height: 50px; border-radius: 50%;
+          overflow: hidden; border: 3px solid red; flex-shrink: 0; margin-right: 10px;">
+          <img src="${punto.perfil}" alt="Perfil" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
-        <p style="font-style: italic; color: #555; margin-bottom: 10px;">${punto.producto}</p>
-        <textarea id="chatInput" rows="4" style="width: 100%; resize: none;" placeholder="Escribe tu mensaje..."></textarea>
-        <button id="sendChatBtn" style="margin-top: 5px; width: 100%; padding: 8px; background: red; color: white; border: none; border-radius: 5px; cursor: pointer;">
-          Enviar
-        </button>
-        <div id="chatResponse" style="margin-top: 10px; font-size: 0.9em; color: green;"></div>
+        <h3 style="margin: 0; color: red;">${punto.nombre}</h3>
       </div>
-    `)
-    .addTo(config.layerGroup)
-    .on("popupopen", function(e) {
-      const popupNode = e.popup.getElement();
-      const btn = popupNode.querySelector("#sendChatBtn");
-      const input = popupNode.querySelector("#chatInput");
-      const responseDiv = popupNode.querySelector("#chatResponse");
+      <p style="font-style: italic; color: #555;">${punto.producto}</p>
+      <div id="chatHistory" style="max-height: 150px; overflow-y: auto; border: 1px solid #ccc; padding: 5px; margin: 10px 0; font-size: 0.9em;"></div>
+      <textarea id="chatInput" rows="2" style="width: 100%; resize: none;" placeholder="Escribe tu mensaje..."></textarea>
+      <button id="sendChatBtn" style="margin-top: 5px; width: 100%; padding: 8px; background: red; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        Enviar
+      </button>
+    </div>
+  `)
 
-      btn.addEventListener("click", () => {
-        const message = input.value.trim();
-        if (message === "") {
-          responseDiv.textContent = "Por favor escribe un mensaje.";
+    .addTo(config.layerGroup)
+
+    // script fake chat
+.on("popupopen", function(e) {
+  const popupNode = e.popup.getElement();
+  const btn = popupNode.querySelector("#sendChatBtn");
+  const input = popupNode.querySelector("#chatInput");
+  const historyDiv = popupNode.querySelector("#chatHistory");
+
+  const storageKey = `chat_${punto.nombre}`;
+
+  let historial = JSON.parse(localStorage.getItem(storageKey)) || punto.mensajes || [];
+
+  const palabrasProhibidas = ["droga", "marihuana", "cocaína", "sexo", "porn", "adulto", "violación", "arma", "cocaina", "explosivo", "terrorista"];
+
+  function contieneProhibidas(mensaje) {
+    const lower = mensaje.toLowerCase();
+    return palabrasProhibidas.some(p => lower.includes(p));
+  }
+
+  function renderHistorial() {
+    historyDiv.innerHTML = historial.map(m => `
+      <div style="display: flex; align-items: center; margin-bottom: 5px;">
+        <img src="${m.perfil}" alt="${m.usuario}" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; margin-right: 8px;">
+        <div><strong>${m.usuario}:</strong> ${m.mensaje}</div>
+      </div>
+    `).join('');
+  }
+
+  renderHistorial();
+
+  btn.addEventListener("click", () => {
+    const mensaje = input.value.trim();
+    if (mensaje === "") return;
+
+    // 🚫 Verificar lista personalizada primero
+    if (contieneProhibidas(mensaje)) {
+      alert("Tu mensaje contiene palabras prohibidas por la tienda.");
+      return;
+    }
+
+    // 🚫 Verificar con Purgomalum después
+    fetch(`https://www.purgomalum.com/service/containsprofanity?text=${encodeURIComponent(mensaje)}`)
+      .then(res => res.text())
+      .then(isProfane => {
+        if (isProfane === "true") {
+          alert("Tu mensaje contiene lenguaje ofensivo. Corrígelo para enviarlo.");
           return;
         }
-        const phone = punto.tel.replace(/\D/g, '');
-        const encodedMessage = encodeURIComponent(message);
-        const waUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
-        window.open(waUrl, '_blank');
 
-        responseDiv.textContent = "Abriendo WhatsApp...";
+        historial.push({
+          usuario: "Tú",
+          perfil: "/assets/productos/clientes/ninaliliam-anonas/nopfp.jpg", 
+          mensaje
+        });
+
+        localStorage.setItem(storageKey, JSON.stringify(historial));
+        renderHistorial();
         input.value = "";
+      })
+      .catch(err => {
+        console.error("Error verificando mensaje:", err);
+        alert("No se pudo validar el mensaje. Intenta de nuevo.");
       });
-    });
+  });
+});
+
+
+
 
   // ✅ Guarda el marcador correctamente para el buscador
   config.markers = config.markers || [];
@@ -664,5 +706,6 @@ inputBusqueda.addEventListener('input', (e) => {
 
 
 <!-- SCRIPT BUSCADOR -->
+
 </body>
 </html>
