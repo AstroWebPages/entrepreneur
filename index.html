@@ -65,6 +65,10 @@
       font-family: sans-serif;
       z-index: 1000;
       cursor: pointer;
+      user-select: none;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* IE/Edge */
     }
 
     #legend div {
@@ -95,26 +99,27 @@
   <div id="map"></div>
 
 <div id="legend">
-  <div id="legend-header" style="cursor: pointer;">
+  <div id="legend-header" style="cursor: pointer;" draggable="false">
     <strong>Marcadores (minimizar)</strong><br><br>
   </div>
   <div id="legend-content">
     <div data-cat="emprendedores">
-      <span style="display:inline-block;width:12px;height:12px;background:#3498db;margin-right:5px;"></span> Emprendedor
+      <span style="display:inline-block;width:12px;height:12px;background:#3498db;margin-right:5px;" draggable="false"></span> Emprendedor
     </div>
     <div data-cat="clientes">
-      <span style="display:inline-block;width:12px;height:12px;background:#e74c3c;margin-right:5px;"></span> Cliente
+      <span style="display:inline-block;width:12px;height:12px;background:#e74c3c;margin-right:5px;" draggable="false"></span> Cliente
     </div>
     <div data-cat="proveedores">
-      <span style="display:inline-block;width:12px;height:12px;background:#2ecc71;margin-right:5px;"></span> Proveedor
+      <span style="display:inline-block;width:12px;height:12px;background:#2ecc71;margin-right:5px;" draggable="false"></span> Proveedor
     </div>
     <div data-cat="premium">
-      <span style="display:inline-block;width:12px;height:12px;background:#f1c40f;margin-right:5px;"></span> Premium
+      <span style="display:inline-block;width:12px;height:12px;background:#f1c40f;margin-right:5px;" draggable="false"></span> Premium
     </div>
     <hr style="border: 0; border-top: 1px solid #555;">
     <div data-cat="all"><strong>Mostrar Todos</strong></div>
   </div>
 </div>
+
 
 <!-- pop up json -->
 
