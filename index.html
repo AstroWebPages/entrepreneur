@@ -19,40 +19,74 @@
     }
 
 
-    /* HEADER */
-    header {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 50px;
-      background: #111;
-      color: white;
-      display: flex;
-      align-items: center;
-      padding: 0 15px;
-      z-index: 3000;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.7);
-      gap: 15px;
-    }
+   /* HEADER GENERAL */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: #111;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  z-index: 3000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.7);
+  gap: 15px;
+  height: 50px;
+}
 
-    header .title {
-      font-weight: bold;
-      font-size: 1.2rem;
-      user-select: none;
-    }
+header .title {
+  display: flex;
+  align-items: center;
+}
 
-    header input[type="search"] {
-      flex-grow: 1;
-      height: 30px;
-      border-radius: 5px;
-      border: none;
-      padding: 0 10px;
-      font-size: 1rem;
-    }
+header .title img {
+  height: 100px;         /* PC altura grande */
+  aspect-ratio: 3/1;     /* Forzar recorte rectangular */
+  object-fit: cover;     /* Recorte interno */
+  display: block;
+}
 
-    header input[type="search"]:focus {
-      outline: 2px solid #3498db;
-    }
+header input[type="search"] {
+  flex-grow: 1;
+  height: 30px;
+  border-radius: 5px;
+  border: none;
+  padding: 0 10px;
+  font-size: 1rem;
+}
 
+header input[type="search"]:focus {
+  outline: 2px solid #3498db;
+}
+
+/* RESPONSIVE MOBILE */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: center;  /* Centra todo horizontal */
+    height: auto;
+    padding: 10px 15px;
+  }
+
+  header .title {
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  header .title img {
+    height: 50px;         /* ALTURA para móvil */
+    width: auto;
+  }
+
+  header input[type="search"] {
+    width: 100%;
+    flex-grow: 0;
+  }
+}
+
+
+ /* Marcadores */
 
     #legend {
       position: absolute;
@@ -89,7 +123,7 @@
 
 <header>
   <div class="title">
-    <img src="/assets/images/textTRP.svg" alt="Logo" style="height: 150px; vertical-align: middle; margin-right: 10px;">
+    <img src="/assets/images/textTRP.svg" alt="Logo">
   </div>
   <input id="searchInput" type="search" placeholder="Buscar producto..." />
 </header>
