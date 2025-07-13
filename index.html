@@ -255,65 +255,38 @@ header input[type="search"]:focus {
   function openModal(nombre, tipo, detalle, perfil, producto, facebook, ig) {
   const modal = document.getElementById('customModal');
   const modalContent = document.getElementById('modalContent');
+
   modalContent.innerHTML = `
-    <div style="
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      max-height: 80vh;
-      overflow-y: auto;
-      align-items: start;
-    ">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-height: 80vh; overflow-y: auto; align-items: start;">
       <div>
         <h2>${producto}</h2>
         <h3>${nombre}</h3>
         <p><strong>Tipo:</strong> ${tipo}</p>
-        <p>${detalle}</p>
+        ${detalle}
       </div>
-      <div style="
-        position: sticky;
-        top: 50%;
-        transform: translateY(-50%);
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        max-height: 80vh;
-        overflow: hidden;
-      ">
-        <img src="${perfil}" alt="Perfil" style="
-          max-width: 100%;
-          max-height: 300px;
-          border-radius: 50%;
-          object-fit: cover;
-          margin-bottom: 10px;
-        ">
+      <div style="position: sticky; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; justify-content: flex-start; align-items: center; max-height: 80vh; overflow: hidden;">
+        <img src="${perfil}" alt="Perfil" style="max-width: 100%; max-height: 300px; border-radius: 50%; object-fit: cover; margin-bottom: 10px;">
         <div style="font-weight: bold; margin-bottom: 15px; text-align: center;">${nombre}</div>
         <div class="buttons-container">
-          <a href="${facebook}" style="
-            background-color: #3b5998;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            font-family: sans-serif;
-          " target="_blank" rel="noopener noreferrer">Facebook</a>
-          <a href="${ig}" style="
-            background-color: #e4405f;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            font-family: sans-serif;
-          " target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="${facebook}" style="background-color: #3b5998; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none; font-weight: bold; font-family: sans-serif;" target="_blank" rel="noopener noreferrer">Facebook</a>
+          <a href="${ig}" style="background-color: #e4405f; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none; font-weight: bold; font-family: sans-serif;" target="_blank" rel="noopener noreferrer">Instagram</a>
         </div>
       </div>
     </div>
   `;
   modal.style.display = 'flex';
+
+  // ⏬ Aquí activa todos los botones del detalle
+  modal.querySelectorAll('.fake-pay-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const producto = btn.getAttribute('data-producto');
+      const amount = parseFloat(btn.getAttribute('data-amount'));
+      iniciarPagoFake(producto, amount);
+    });
+  });
 }
+
+
 
 
 
@@ -760,6 +733,71 @@ inputBusqueda.addEventListener('input', (e) => {
 
 
 <!-- SCRIPT BUSCADOR -->
+<!-- SCRIPT Fake Pay -->
+ <script>
+function iniciarPagoFake(producto, monto) {
+  // ✅ Mostrar popup PAGADO
+  const pagadoPopup = document.createElement('div');
+  pagadoPopup.style.position = 'fixed';
+  pagadoPopup.style.top = '50%';
+  pagadoPopup.style.left = '50%';
+  pagadoPopup.style.transform = 'translate(-50%, -50%)';
+  pagadoPopup.style.background = '#111';
+  pagadoPopup.style.color = '#0f0';
+  pagadoPopup.style.padding = '30px';
+  pagadoPopup.style.fontSize = '1.5em';
+  pagadoPopup.style.textAlign = 'center';
+  pagadoPopup.style.borderRadius = '10px';
+  pagadoPopup.style.zIndex = '9999';
+
+  pagadoPopup.innerHTML = `
+    ✅ PAGADO<br>
+    <span style="font-size: 2em;">⬇️</span>
+  `;
+
+  document.body.appendChild(pagadoPopup);
+
+  // Espera 2s, luego mostrar info ciclista
+  setTimeout(() => {
+    document.body.removeChild(pagadoPopup);
+
+    const ubicacion = prompt("✅ Gracias por tu compra 🚴‍♂️\nPor favor ingresa tu dirección o comparte tu ubicación GPS:");
+    if (ubicacion) {
+      // Fake coords y costo envío
+      const latCliente = 13.72;
+      const lngCliente = -89.2;
+      const latEmprendedor = 13.70;
+      const lngEmprendedor = -89.19;
+
+      const distanciaKM = calcularDistancia(latCliente, lngCliente, latEmprendedor, lngEmprendedor);
+      const costoEnvio = calcularComisionCiclista(distanciaKM);
+
+      alert(
+        `Un ciclista va en camino 🚴‍♂️\nDistancia: ${distanciaKM.toFixed(2)} km\nCosto estimado de envío: $${costoEnvio.toFixed(2)}`
+      );
+
+    } else {
+      alert("⚠️ Necesitamos tu ubicación para coordinar la entrega.");
+    }
+  }, 2000);
+}
+
+function calcularDistancia(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function calcularComisionCiclista(km) {
+  return 0.50 + (km * 0.20);
+}
+</script>
+
+<!-- SCRIPT Fake Pay -->
 
 </body>
 </html>
