@@ -405,7 +405,11 @@ Object.keys(categorias).forEach(cat => {
                 </div>
               </div>
             `)
-            .addTo(config.layerGroup);
+            .addTo(config.layerGroup)
+            //centrar en mapa
+            .on('click', () => {
+            map.setView([punto.lat, punto.lng], map.getZoom(), { animate: true });
+          });
 
             // MARCADOR PARA BUSCADOR
             config.markers = config.markers || [];
@@ -469,33 +473,38 @@ Object.keys(categorias).forEach(cat => {
   `)
 
     .addTo(config.layerGroup)
+    //centrar en mapa
+    .on('click', () => {
+    map.setView([punto.lat, punto.lng], map.getZoom(), { animate: true });
+  })
+    
 
     // script fake chat
-.on("popupopen", function(e) {
-  const popupNode = e.popup.getElement();
-  const btn = popupNode.querySelector("#sendChatBtn");
-  const input = popupNode.querySelector("#chatInput");
-  const historyDiv = popupNode.querySelector("#chatHistory");
+    .on("popupopen", function(e) {
+      const popupNode = e.popup.getElement();
+      const btn = popupNode.querySelector("#sendChatBtn");
+      const input = popupNode.querySelector("#chatInput");
+      const historyDiv = popupNode.querySelector("#chatHistory");
 
-  const storageKey = `chat_${punto.nombre}`;
+      const storageKey = `chat_${punto.nombre}`;
 
-  let historial = JSON.parse(localStorage.getItem(storageKey)) || punto.mensajes || [];
+      let historial = JSON.parse(localStorage.getItem(storageKey)) || punto.mensajes || [];
 
-  const palabrasProhibidas = ["droga", "marihuana", "cocaína", "sexo", "porn", "adulto", "violación", "arma", "cocaina", "explosivo", "terrorista"];
+      const palabrasProhibidas = ["droga", "marihuana", "cocaína", "sexo", "porno", "adulto", "violación", "arma", "cocaina", "explosivo", "terrorista"];
 
-  function contieneProhibidas(mensaje) {
-    const lower = mensaje.toLowerCase();
-    return palabrasProhibidas.some(p => lower.includes(p));
-  }
+      function contieneProhibidas(mensaje) {
+        const lower = mensaje.toLowerCase();
+        return palabrasProhibidas.some(p => lower.includes(p));
+      }
 
-  function renderHistorial() {
-    historyDiv.innerHTML = historial.map(m => `
-      <div style="display: flex; align-items: center; margin-bottom: 5px;">
-        <img src="${m.perfil}" alt="${m.usuario}" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; margin-right: 8px;">
-        <div><strong>${m.usuario}:</strong> ${m.mensaje}</div>
-      </div>
-    `).join('');
-  }
+      function renderHistorial() {
+        historyDiv.innerHTML = historial.map(m => `
+          <div style="display: flex; align-items: center; margin-bottom: 5px;">
+            <img src="${m.perfil}" alt="${m.usuario}" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; margin-right: 8px;">
+            <div><strong>${m.usuario}:</strong> ${m.mensaje}</div>
+          </div>
+        `).join('');
+      }
 
   renderHistorial();
 
@@ -574,7 +583,10 @@ Object.keys(categorias).forEach(cat => {
               </div>
             </div>
           `)
-          .addTo(config.layerGroup);
+          .addTo(config.layerGroup)
+            .on('click', () => {
+            map.setView([punto.lat, punto.lng], map.getZoom(), { animate: true });
+          });
 
           // MARCADOR PARA BUSCADOR
             config.markers = config.markers || [];
