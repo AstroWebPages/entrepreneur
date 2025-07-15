@@ -559,3 +559,86 @@ function calcularDistancia(lat1, lon1, lat2, lon2) {
 function calcularComisionCiclista(km) {
   return 0.50 + (km * 0.20);
 }
+
+
+
+
+// Evento click en el mapa (área vacía)
+map.on('click', function(e) {
+  const lat = e.latlng.lat.toFixed(6);
+  const lng = e.latlng.lng.toFixed(6);
+
+  const contenido = `
+    <div style="text-align:center;">
+      <h3>¿Quieres agregar tu emprendimiento aquí?</h3>
+      <p>Lat: ${lat} <br> Lng: ${lng}</p>
+      <button id="agregarEmprendimientoBtn"
+        style="padding: 10px; background: #2ecc71; color: #fff; border: none; border-radius: 5px; cursor: pointer;">
+        Sí, agregar aquí
+      </button>
+    </div>
+  `;
+
+  L.popup()
+    .setLatLng(e.latlng)
+    .setContent(contenido)
+    .openOn(map);
+
+  setTimeout(() => {
+    const btn = document.getElementById('agregarEmprendimientoBtn');
+    if (btn) {
+      btn.addEventListener('click', function() {
+        abrirFormularioEmprendimiento(lat, lng);
+        map.closePopup();
+      });
+    }
+  }, 10);
+});
+
+
+
+// funcion agregar mas productos
+
+function abrirFormularioEmprendimiento(lat, lng) {
+  const modal = document.getElementById('formularioModal');
+  modal.style.display = 'flex';
+  document.getElementById('latInput').value = lat;
+  document.getElementById('lngInput').value = lng;
+}
+
+document.getElementById('closeFormularioModal').addEventListener('click', function() {
+  document.getElementById('formularioModal').style.display = 'none';
+});
+
+// Botón agregar producto extra
+const container = document.getElementById('productosContainer');
+const agregarBtn = document.getElementById('agregarProductoBtn');
+let contadorProductos = 1;
+
+agregarBtn.addEventListener('click', function() {
+  if (contadorProductos >= 5) {
+    alert('Puedes agregar hasta 5 productos como máximo.');
+    return;
+  }
+
+  contadorProductos++;
+
+  const nuevoProducto = document.createElement('div');
+  nuevoProducto.className = 'producto-item';
+  nuevoProducto.innerHTML = `
+    <h3>Producto ${contadorProductos}</h3>
+    <label>Link producto externo (opcional):<br><input type="url" name="producto${contadorProductos}_link"></label><br><br>
+    <label>Precio:<br><input type="number" step="0.01" name="producto${contadorProductos}_precio"></label><br><br>
+    <label>Link imagen:<br><input type="url" name="producto${contadorProductos}_imagen"></label><br><br>
+    <label>Título:<br><input type="text" name="producto${contadorProductos}_titulo"></label><br><br>
+    <label>Descripción:<br><textarea name="producto${contadorProductos}_descripcion" rows="3"></textarea></label><br><br>
+  `;
+
+  container.appendChild(nuevoProducto);
+
+  if (contadorProductos === 5) {
+    this.disabled = true; // Desactiva botón cuando llega al máximo
+  }
+});
+
+
