@@ -126,7 +126,40 @@ header input[type="search"]:focus {
     <img src="/assets/images/textTRP.svg" alt="Logo">
   </div>
   <input id="searchInput" type="search" placeholder="Buscar producto..." />
+  <a href="https://astroweb.store" target="_blank" class="store-link">
+    ᗩᔕ༒尺۝
+  </a>
 </header>
+
+<style>
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: #111;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  z-index: 3000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.7);
+  gap: 15px;
+  height: 50px;
+}
+
+header .store-link {
+  margin-left: auto; /* lo manda a la derecha */
+  color: #fff;        /* blanco */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+header .store-link:hover {
+  color: #ccc;        /* gris claro al pasar el mouse */
+}
+</style>
+
+
 
 
 
@@ -257,8 +290,8 @@ header input[type="search"]:focus {
       </button>
     </form>
   </div>
+  
 </div>
-
 
 <!-- css productos json -->
 
@@ -310,9 +343,18 @@ header input[type="search"]:focus {
   }
 }
 
+footer {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: #111;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  z-index: 2000;
+}
+
 
 </style>
-
 
 
 
