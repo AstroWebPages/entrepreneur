@@ -1,23 +1,36 @@
 [
   {
-    "nombre": "Akemi Accesorios",
-    "producto": "Pulseras",
-    "lat": 13.719395,
-    "lng": -89.204476,
-    "ig": "https://www.instagram.com/akemi._accesorios/",
-    "whatsapp": "wa.me/50369704747",
-    "perfil": "https://scontent.cdninstagram.com/v/t51.75761-19/497876472_17843546571489662_9159152761397095081_n.jpg?stp=cp0_dst-jpg_s110x80_tt6&_nc_cat=105&ccb=1-7&_nc_sid=bf7eb4&_nc_ohc=T92nAq5L7aIQ7kNvwFO-tfn&_nc_oc=Adnj3cZy0pGnPUgOaJGSTPa5KCAIm4PsYyX_gCjO6ro-T0Ju_Vu2jYnb-f4oJcy1XPY&_nc_zt=24&_nc_ht=scontent.cdninstagram.com&_nc_gid=dMp9Ml2ix4437zd2tVcjvg&oh=00_AfSUM1ummloa4BYf6HWguywW7mZubBEiad1T34lpoUWZdA&oe=68786CDE",
-    "detalle": "<p>🧸 Accesorios que te hacen lucir genial‼️<br>📍 El Salvador 🇸🇻<br>🍓 Bisutería hecha a mano<br>🌸 Haz tu pedido vía DM</p><div class='productos-grid'><div class='producto'><h4>Pulsera Perrito</h4><img src='/assets/productos/emprendedores/akemi-pulseras/p1.jpg' alt='Producto 1'><p>Precio: $3.00</p><button class='fake-pay-btn' data-producto='Pulsera Perrito' data-amount='3.00' style='border:none;background:none;cursor:pointer;'><p>Pagar con:</p><img src='/assets/images/nequi.png' alt='Pagar con Nequi SV' style='width:200px;height:auto;aspect-ratio:618/219;display:block;'></button></div><div class='producto'><h4>Pulsera Perrito</h4><img src='/assets/productos/emprendedores/akemi-pulseras/p1.jpg' alt='Producto 1'><p>Precio: $3.00</p><button class='fake-pay-btn' data-producto='Pulsera Perrito' data-amount='3.00' style='border:none;background:none;cursor:pointer;'><p>Pagar con:</p><img src='/assets/images/nequi.png' alt='Pagar con Nequi SV' style='width:200px;height:auto;aspect-ratio:618/219;display:block;'></button></div></div>"
+  "nombre": "Akemi Accesorios",
+  "producto": "Pulseras",
+  "lat": 13.719395,
+  "lng": -89.204476,
+  "ig": "https://www.instagram.com/akemi._accesorios/",
+  "whatsapp": "wa.me/50369704747",
+  "perfil": "assets/productos/emprendedores/akemi-pulseras/pfp.jpg",
+  "detalle": "<p>🧸 Accesorios que te hacen lucir genial‼️<br>📍 El Salvador 🇸🇻<br>🍓 Bisutería hecha a mano<br>🌸 Haz tu pedido vía DM</p><div class='productos-grid'><div class='producto'><h4>Pulsera Flor</h4><img src='/assets/productos/emprendedores/akemi-pulseras/p2.jpg' alt='Producto 1'><p>Precio: $3.00</p><button class='fake-pay-btn' data-producto='Pulsera Flor' data-amount='3.00' style='border:none;background:none;cursor:pointer;'><p>Pagar con:</p><img src='/assets/images/nequi.png' alt='Pagar con Nequi SV' style='width:200px;height:auto;aspect-ratio:618/219;display:block;'></button></div><div class='producto'><h4>Pulsera Perrito</h4><img src='/assets/productos/emprendedores/akemi-pulseras/p1.jpg' alt='Producto 1'><p>Precio: $3.00</p><button class='fake-pay-btn' data-producto='Pulsera Perrito' data-amount='3.00' style='border:none;background:none;cursor:pointer;'><p>Pagar con:</p><img src='/assets/images/nequi.png' alt='Pagar con Nequi SV' style='width:200px;height:auto;aspect-ratio:618/219;display:block;'></button></div></div>"
 
-     
-    },
+    
+  },
   {
-    "nombre": "Lucía Artesanías",
-    "producto": "Collares",
+  "nombre": "Ronnito",
+  "producto": "Gorros Natación",
+  "lat": 13.721214,
+  "lng": -89.202845,
+  "whatsapp": "wa.me/50378264942",
+  "perfil": "assets/productos/emprendedores/ronito-gorros/gorro.jpeg",
+  "detalle": "<p>🏊‍♂️ Gorro para natación de alta calidad‼️<br>📍 El Salvador 🇸🇻<br>✨ Ideal para entrenamientos y competencias<br>🌊 Resistente y cómodo</p><div class='productos-grid'><div class='producto'><h4>Gorro para Natación</h4><img src='/assets/productos/emprendedores/ronito-gorros/gorro.jpeg' alt='Gorro para Natación'><p>Precio: $8.00</p><button class='fake-pay-btn' data-producto='Gorro para Natación' data-amount='8.00' style='border:none;background:none;cursor:pointer;'><p>Pagar con:</p><img src='/assets/images/nequi.png' alt='Pagar con Nequi SV' style='width:200px;height:auto;aspect-ratio:618/219;display:block;'></button></div></div>"
+
+    
+  },
+  {
+    "nombre": "Jb Makeup",
+    "producto": "Maquillaje",
     "lat": 13.722000,
     "lng": -89.205000,
-    "perfil": "https://example.com/perfil-lucia.jpg",
-    "whatsapp": "wa.me/50378013735",
-    "detalle": "<p> Artesanías hechas con amor y dedicación.<br>📍 El Salvador 🇸🇻<br>Collares únicos y personalizados.<br>Contáctanos para tu pedido.</p>"
+    "perfil": "assets/productos/emprendedores/jb-boutique/pfp.jpg",
+    "ig": "https://www.instagram.com/jbmakeup.boutique?igsh=cGt2aHJrcGc3dXF1",
+    "detalle": "<p>💄 Maquillaje profesional para resaltar tu belleza‼️<br>📍 El Salvador 🇸🇻<br>✨ Calidad premium y colores vibrantes<br>🌸 Haz tu pedido vía DM</p><div class='productos-grid'><div class='producto'><h4>Kit de Maquillaje</h4><img src='/assets/productos/emprendedores/jb-boutique/obj1.webp' alt='Kit de Maquillaje'><p>Precio: $15.00</p><button class='fake-pay-btn' data-producto='Kit de Maquillaje' data-amount='15.00' style='border:none;background:none;cursor:pointer;'><p>Pagar con:</p><img src='/assets/images/nequi.png' alt='Pagar con Nequi SV' style='width:200px;height:auto;aspect-ratio:618/219;display:block;'></button></div></div>"
   }
+
+  
 ]
