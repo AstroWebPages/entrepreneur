@@ -173,26 +173,86 @@ Object.keys(categorias).forEach(cat => {
 
           let marker = L.marker([punto.lat, punto.lng], { icon: createIcon(iconSize) })
             .bindPopup(`
-              <div style="display: flex; align-items: center;">
-                <img src="${punto.perfil}" alt="Perfil" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
-                <div>
-                  <h3 style="margin: 0; font-weight: 700; color: ${config.color};">${punto.producto}</h3>
-                  <p style="margin: 2px 0 6px; font-weight: 500; font-size: 1.1em;">${punto.nombre}</p>
-                  <p style="margin: 0; font-style: italic; color: #aaa;">Tipo: ${cat}</p><br>
-                  <button onclick="openModal(
-                  '${punto.nombre}', 
-                  '${cat}', 
-                  \`${punto.detalle}\`, 
-                  '${punto.perfil}', 
-                  '${punto.producto}', 
-                  '${punto.facebook || ''}', 
-                  '${punto.ig || ''}', 
-                  '${punto.whatsapp || ''}', 
-                  '${punto.linkedin || ''}'
-                )">Maximizar</button>
+              <div style="
+  display: flex !important;
+  align-items: center !important;
+  padding: 12px !important;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05)) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 15px 25px rgba(0,0,0,0.2) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  backdrop-filter: blur(12px) !important;
+  max-width: 280px !important;
+  transition: all 0.3s ease !important;
+">
+  <img src="${punto.perfil}" alt="Perfil" style="
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    margin-right: 10px !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
+  ">
+  <div style="flex: 1 !important;">
+    <h3 style="
+      margin: 0 !important;
+      font-weight: 700 !important;
+      color: ${config.color} !important;
+      font-size: 16px !important;
+    ">${punto.producto}</h3>
+    
+    <p style="
+      margin: 2px 0 6px !important;
+      font-weight: 500 !important;
+      font-size: 14px !important;
+    ">${punto.nombre}</p>
+    
+    <p style="
+      margin: 0 !important;
+      font-style: italic !important;
+      color: #aaa !important;
+      font-size: 12px !important;
+    ">Tipo: ${cat}</p>
+    
+    <br>
+    
+    <button style="
+      padding: 8px 14px !important;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
+      color: #fff !important;
+      border: none !important;
+      border-radius: 8px !important;
+      cursor: pointer !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      transition: all 0.2s ease !important;
+      box-shadow: 0 2px 8px rgba(59,130,246,0.3) !important;
+      width: 100% !important;
+    "
+    onmouseover="
+      this.style.background='linear-gradient(135deg, #2563eb, #7c3aed)' !important;
+      this.style.transform='translateY(-1px)' !important;
+      this.style.boxShadow='0 4px 12px rgba(59,130,246,0.35)' !important;
+    "
+    onmouseout="
+      this.style.background='linear-gradient(135deg, #3b82f6, #8b5cf6)' !important;
+      this.style.transform='translateY(0)' !important;
+      this.style.boxShadow='0 2px 8px rgba(59,130,246,0.3)' !important;
+    "
+    onclick="openModal(
+      '${punto.nombre}', 
+      '${cat}', 
+      \`${punto.detalle}\`, 
+      '${punto.perfil}', 
+      '${punto.producto}', 
+      '${punto.facebook || ''}', 
+      '${punto.ig || ''}', 
+      '${punto.whatsapp || ''}', 
+      '${punto.linkedin || ''}'
+    )">Maximizar</button>
+  </div>
+</div>
 
-                </div>
-              </div>
             `)
             .addTo(config.layerGroup)
             .on('click', () => {
@@ -350,26 +410,86 @@ Object.keys(categorias).forEach(cat => {
             radius: config.radius
           })
           .bindPopup(`
-            <div style="display: flex; align-items: center;">
-              <img src="${punto.perfil}" alt="Perfil" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
-              <div>
-                <h3 style="margin: 0; font-weight: 700; color: ${config.color};">${punto.producto}</h3>
-                <p style="margin: 2px 0 6px; font-weight: 500; font-size: 1.1em;">${punto.nombre}</p>
-                <p style="margin: 0; font-style: italic; color: #aaa;">Tipo: ${cat}</p><br>
-                <button onclick="openModal(
-                  '${punto.nombre}', 
-                  '${cat}', 
-                  \`${punto.detalle}\`, 
-                  '${punto.perfil}', 
-                  '${punto.producto}', 
-                  '${punto.facebook || ''}', 
-                  '${punto.ig || ''}', 
-                  '${punto.whatsapp || ''}', 
-                  '${punto.linkedin || ''}'
-                )">Maximizar</button>
+            <div style="
+  display: flex !important;
+  align-items: center !important;
+  padding: 12px !important;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05)) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 15px 25px rgba(0,0,0,0.2) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  backdrop-filter: blur(12px) !important;
+  max-width: 280px !important;
+  transition: all 0.3s ease !important;
+">
+  <img src="${punto.perfil}" alt="Perfil" style="
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    margin-right: 10px !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
+  ">
+  <div style="flex: 1 !important;">
+    <h3 style="
+      margin: 0 !important;
+      font-weight: 700 !important;
+      color: ${config.color} !important;
+      font-size: 16px !important;
+    ">${punto.producto}</h3>
+    
+    <p style="
+      margin: 2px 0 6px !important;
+      font-weight: 500 !important;
+      font-size: 14px !important;
+    ">${punto.nombre}</p>
+    
+    <p style="
+      margin: 0 !important;
+      font-style: italic !important;
+      color: #aaa !important;
+      font-size: 12px !important;
+    ">Tipo: ${cat}</p>
+    
+    <br>
+    
+    <button style="
+      padding: 8px 14px !important;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
+      color: #fff !important;
+      border: none !important;
+      border-radius: 8px !important;
+      cursor: pointer !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      transition: all 0.2s ease !important;
+      box-shadow: 0 2px 8px rgba(59,130,246,0.3) !important;
+      width: 100% !important;
+    "
+    onmouseover="
+      this.style.background='linear-gradient(135deg, #2563eb, #7c3aed)' !important;
+      this.style.transform='translateY(-1px)' !important;
+      this.style.boxShadow='0 4px 12px rgba(59,130,246,0.35)' !important;
+    "
+    onmouseout="
+      this.style.background='linear-gradient(135deg, #3b82f6, #8b5cf6)' !important;
+      this.style.transform='translateY(0)' !important;
+      this.style.boxShadow='0 2px 8px rgba(59,130,246,0.3)' !important;
+    "
+    onclick="openModal(
+      '${punto.nombre}', 
+      '${cat}', 
+      \`${punto.detalle}\`, 
+      '${punto.perfil}', 
+      '${punto.producto}', 
+      '${punto.facebook || ''}', 
+      '${punto.ig || ''}', 
+      '${punto.whatsapp || ''}', 
+      '${punto.linkedin || ''}'
+    )">Maximizar</button>
+  </div>
+</div>
 
-                </div>
-            </div>
           `)
           .addTo(config.layerGroup)
           .on('click', () => {
@@ -569,16 +689,85 @@ map.on('click', function(e) {
   const lng = e.latlng.lng.toFixed(6);
 
   const contenido = `
-    <div style="text-align:center;">
-      <h3>¿Quieres agregar tu emprendimiento aquí?</h3>
-      <p>Lat: ${lat} <br> Lng: ${lng}</p>
-      <button id="agregarEmprendimientoBtn"
-        style="padding: 10px; background: #2ecc71; color: #fff; border: none; border-radius: 5px; cursor: pointer;">
-        Sí, agregar aquí
+    <div style="
+      text-align: center;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      max-width: 280px;
+      border: 1px solid rgba(59, 130, 246, 0.1);
+      position: relative;
+      backdrop-filter: blur(10px);
+    ">
+      <div style="
+        width: 12px;
+        height: 12px;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        border-radius: 50%;
+        position: absolute;
+        top: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+      "></div>
+      
+      <h3 style="
+        margin: 4px 0 12px 0;
+        color: #1f2937;
+        font-size: 17px;
+        font-weight: 600;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      ">¿Agregar emprendimiento?</h3>
+      
+      <div style="
+        background: rgba(59, 130, 246, 0.05);
+        border-radius: 8px;
+        padding: 8px;
+        margin: 0 0 16px 0;
+        border-left: 3px solid #3b82f6;
+      ">
+        <p style="
+          margin: 0;
+          color: #6b7280;
+          font-size: 12px;
+          font-family: 'SF Mono', monospace;
+        ">📍 ${lat} | ${lng}</p>
+      </div>
+      
+      <button id="agregarEmprendimientoBtn" style="
+        padding: 10px 18px;
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        width: 100%;
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+        position: relative;
+        overflow: hidden;
+      " 
+      onmouseover="
+        this.style.background='linear-gradient(135deg, #059669, #047857)';
+        this.style.transform='translateY(-1px)';
+        this.style.boxShadow='0 4px 12px rgba(16, 185, 129, 0.3)';
+      "
+      onmouseout="
+        this.style.background='linear-gradient(135deg, #10b981, #059669)';
+        this.style.transform='translateY(0)';
+        this.style.boxShadow='0 2px 8px rgba(16, 185, 129, 0.2)';
+      ">
+        ✅ Sí, agregar aquí
       </button>
     </div>
   `;
-
   L.popup()
     .setLatLng(e.latlng)
     .setContent(contenido)
@@ -597,8 +786,7 @@ map.on('click', function(e) {
 
 
 
-// funcion agregar mas productos
-
+// Función abrir formulario emprendimiento
 function abrirFormularioEmprendimiento(lat, lng) {
   const modal = document.getElementById('formularioModal');
   modal.style.display = 'flex';
@@ -615,30 +803,346 @@ const container = document.getElementById('productosContainer');
 const agregarBtn = document.getElementById('agregarProductoBtn');
 let contadorProductos = 1;
 
+// Modal de pago premium (puedes modificar este contenido después)
+const modalPagoHTML = `
+<div id="modalPago" style="
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 5000;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+">
+  <div style="
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 90%;
+    max-height: 90%;
+    position: relative;
+    text-align: center;
+    box-shadow: 
+      0 25px 50px -12px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.1);
+    transform: scale(0.9) translateY(20px);
+    transition: all 0.3s ease;
+  ">
+    <button id="closePagoModal" style="
+      position: absolute;
+      top: 15px; right: 15px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none; color: white;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    " onmouseover="this.style.background='rgba(255, 255, 255, 0.3)'"
+       onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'">×</button>
+    
+    <div style="margin-bottom: 30px;">
+      <div style="
+        width: 80px; height: 80px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+      ">🚀</div>
+      
+      <h2 style="
+        margin: 0 0 16px 0;
+        font-size: 28px;
+        font-weight: 700;
+      ">¡Desbloquea el Plan Premium!</h2>
+      
+      <p style="
+        font-size: 18px;
+        opacity: 0.9;
+        line-height: 1.5;
+        margin-bottom: 30px;
+      ">Agrega productos ilimitados y accede a funciones exclusivas para hacer crecer tu emprendimiento</p>
+    </div>
+    
+    <div style="
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 30px;
+      text-align: left;
+    ">
+      <h3 style="margin: 0 0 15px 0; color: #fff;">✨ Beneficios Premium:</h3>
+      <ul style="
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      ">
+        <li style="padding: 8px 0; font-size: 16px;">🛍️ Productos ilimitados</li>
+        <li style="padding: 8px 0; font-size: 16px;">📊 Analytics avanzados</li>
+        <li style="padding: 8px 0; font-size: 16px;">🎨 Personalización completa</li>
+        <li style="padding: 8px 0; font-size: 16px;">💬 Soporte prioritario</li>
+        <li style="padding: 8px 0; font-size: 16px;">🔥 Sin publicidad</li>
+      </ul>
+    </div>
+    
+    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+      <button id="btnUpgrade" style="
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 20px rgba(240, 147, 251, 0.3);
+      " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 25px rgba(240, 147, 251, 0.4)'"
+         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(240, 147, 251, 0.3)'">
+        🚀 Actualizar a Premium
+      </button>
+      
+      <button id="btnContinueBasic" style="
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        padding: 13px 25px;
+        border-radius: 25px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      " onmouseover="this.style.background='rgba(255, 255, 255, 0.3)'"
+         onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'">
+        Continuar con Plan Básico
+      </button>
+    </div>
+    
+    <p style="
+      margin-top: 20px;
+      font-size: 14px;
+      opacity: 0.7;
+    ">* Puedes cancelar en cualquier momento</p>
+  </div>
+</div>`;
+
+// Agregar modal de pago al DOM si no existe
+if (!document.getElementById('modalPago')) {
+  document.body.insertAdjacentHTML('beforeend', modalPagoHTML);
+}
+
+// Función para mostrar modal de pago
+function mostrarModalPago() {
+  const modalPago = document.getElementById('modalPago');
+  modalPago.style.display = 'flex';
+  
+  // Animación de entrada
+  setTimeout(() => {
+    modalPago.style.opacity = '1';
+    modalPago.style.visibility = 'visible';
+    modalPago.querySelector('div').style.transform = 'scale(1) translateY(0)';
+  }, 10);
+}
+
+// Función para cerrar modal de pago
+function cerrarModalPago() {
+  const modalPago = document.getElementById('modalPago');
+  modalPago.style.opacity = '0';
+  modalPago.style.visibility = 'hidden';
+  modalPago.querySelector('div').style.transform = 'scale(0.9) translateY(20px)';
+  
+  setTimeout(() => {
+    modalPago.style.display = 'none';
+  }, 300);
+}
+
+// Event listeners para modal de pago
+document.addEventListener('click', function(e) {
+  if (e.target.id === 'closePagoModal' || e.target.id === 'btnContinueBasic') {
+    cerrarModalPago();
+  }
+  
+  if (e.target.id === 'btnUpgrade') {
+    // AQUÍ PUEDES AGREGAR TU LÓGICA DE PAGO
+    alert('Aquí iría la integración con tu sistema de pagos');
+    cerrarModalPago();
+  }
+});
+
+// Función principal para agregar productos
 agregarBtn.addEventListener('click', function() {
-  if (contadorProductos >= 5) {
-    alert('Puedes agregar hasta 5 productos como máximo.');
+  // Si ya tiene 5 productos, mostrar modal de pago
+  if (contadorProductos >= 4) {
+    mostrarModalPago();
     return;
   }
 
   contadorProductos++;
-
+  
+  // Crear nuevo producto con estilos compatibles
   const nuevoProducto = document.createElement('div');
   nuevoProducto.className = 'producto-item';
+  nuevoProducto.style.cssText = `
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    margin-bottom: 16px;
+  `;
+  
   nuevoProducto.innerHTML = `
-    <h3>Producto ${contadorProductos}</h3>
-    <label>Link producto externo (opcional):<br><input type="url" name="producto${contadorProductos}_link"></label><br><br>
-    <label>Precio:<br><input type="number" step="0.01" name="producto${contadorProductos}_precio"></label><br><br>
-    <label>Link imagen:<br><input type="url" name="producto${contadorProductos}_imagen"></label><br><br>
-    <label>Título:<br><input type="text" name="producto${contadorProductos}_titulo"></label><br><br>
-    <label>Descripción:<br><textarea name="producto${contadorProductos}_descripcion" rows="3"></textarea></label><br><br>
+    <h3 style="
+      margin: 0 0 16px 0;
+      color: #1f2937;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 8px 0;
+      border-bottom: 2px solid #e5e7eb;
+      position: relative;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    ">Producto ${contadorProductos}
+      <span style="
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background: linear-gradient(90deg, #8b5cf6, #a855f7);
+      "></span>
+    </h3>
+    
+    <label>Link producto externo (opcional):<br>
+      <input type="url" name="producto${contadorProductos}_link">
+    </label>
+    
+    <label>Precio:<br>
+      <input type="number" step="0.01" name="producto${contadorProductos}_precio" required>
+    </label>
+    
+    <label>Link imagen:<br>
+      <input type="url" name="producto${contadorProductos}_imagen" required>
+    </label>
+    
+    <label>Título:<br>
+      <input type="text" name="producto${contadorProductos}_titulo" required>
+    </label>
+    
+    <label>Descripción:<br>
+      <textarea name="producto${contadorProductos}_descripcion" rows="3" required></textarea>
+    </label>
+    
+    <button type="button" class="eliminar-producto" data-producto="${contadorProductos}" style="
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      margin-top: 12px;
+      transition: all 0.2s ease;
+    " onmouseover="this.style.background='linear-gradient(135deg, #dc2626, #b91c1c)'"
+       onmouseout="this.style.background='linear-gradient(135deg, #ef4444, #dc2626)'">
+      🗑️ Eliminar Producto
+    </button>
   `;
 
   container.appendChild(nuevoProducto);
+  
+  // Actualizar texto del botón
+  if (contadorProductos === 3) {
+    this.innerHTML = '➕ Agregar último producto gratuito';
+    this.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+  } else if (contadorProductos === 4) {
+    this.innerHTML = '🚀 Desbloquear más productos (Premium)';
+    this.style.background = 'linear-gradient(135deg, #8b5cf6, #7c3aed)';
+  }
+  
+  // Animar entrada del nuevo producto
+  nuevoProducto.style.opacity = '0';
+  nuevoProducto.style.transform = 'translateY(20px)';
+  setTimeout(() => {
+    nuevoProducto.style.transition = 'all 0.3s ease';
+    nuevoProducto.style.opacity = '1';
+    nuevoProducto.style.transform = 'translateY(0)';
+  }, 10);
+});
 
-  if (contadorProductos === 5) {
-    this.disabled = true; // Desactiva botón cuando llega al máximo
+// Función para eliminar productos
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('eliminar-producto')) {
+    const productoNumero = parseInt(e.target.dataset.producto);
+    const productoElement = e.target.closest('.producto-item');
+    
+    // Animación de salida
+    productoElement.style.transition = 'all 0.3s ease';
+    productoElement.style.opacity = '0';
+    productoElement.style.transform = 'translateX(-100px)';
+    
+    setTimeout(() => {
+      productoElement.remove();
+      contadorProductos--;
+      
+      // Actualizar botón si es necesario
+      if (contadorProductos < 4) {
+        agregarBtn.disabled = false;
+        if (contadorProductos === 3) {
+          agregarBtn.innerHTML = '➕ Agregar último producto gratuito';
+          agregarBtn.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+        } else {
+          agregarBtn.innerHTML = '➕ Agregar otro producto';
+          agregarBtn.style.background = 'linear-gradient(135deg, #3b82f6, #1d4ed8)';
+        }
+      }
+      
+      // Reordenar números de productos
+      actualizarNumerosProductos();
+    }, 300);
   }
 });
 
-
+// Función para actualizar números de productos después de eliminar
+function actualizarNumerosProductos() {
+  const productos = container.querySelectorAll('.producto-item');
+  productos.forEach((producto, index) => {
+    const numero = index + 1;
+    const h3 = producto.querySelector('h3');
+    if (h3) {
+      h3.innerHTML = `Producto ${numero}
+        <span style="
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 40px;
+          height: 2px;
+          background: linear-gradient(90deg, #8b5cf6, #a855f7);
+        "></span>`;
+    }
+    
+    // Actualizar nombres de los inputs
+    const inputs = producto.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+      const currentName = input.getAttribute('name');
+      if (currentName) {
+        const newName = currentName.replace(/producto\d+_/, `producto${numero}_`);
+        input.setAttribute('name', newName);
+      }
+    });
+    
+    // Actualizar botón eliminar
+    const btnEliminar = producto.querySelector('.eliminar-producto');
+    if (btnEliminar) {
+      btnEliminar.dataset.producto = numero;
+    }
+  });
+}

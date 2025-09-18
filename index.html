@@ -7,10 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <style>
-    html, body {
+   html, body {
       height: 100%;
       margin: 0;
-      background: #000;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      /* Fondo con gradiente para mostrar mejor el efecto glass */
     }
 
     #map {
@@ -18,72 +19,164 @@
       position: relative;
     }
 
+    /* HEADER CON EFECTO GLASS */
+    header {
+      position: fixed;
+      top: 0; 
+      left: 0; 
+      right: 0;
+      
+      /* Efecto Glass */
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      z-index: 3000;
+      gap: 15px;
+      height: 60px;
+      
+      /* Bordes redondeados en la parte inferior */
+      border-radius: 0 0 20px 20px;
+      border-top: none;
+      
+      transition: all 0.3s ease;
+    }
 
-   /* HEADER GENERAL */
-header {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  background: #111;
-  color: white;
-  display: flex;
-  align-items: center;
-  padding: 0 15px;
-  z-index: 3000;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.7);
-  gap: 15px;
-  height: 50px;
-}
+    /* Efecto hover en el header */
+    header:hover {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+      transform: translateY(2px);
+    }
 
-header .title {
-  display: flex;
-  align-items: center;
-}
+    header .title {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
 
-header .title img {
-  height: 100px;         /* PC altura grande */
-  aspect-ratio: 3/1;     /* Forzar recorte rectangular */
-  object-fit: cover;     /* Recorte interno */
-  display: block;
-}
+    header .title img {
+      height: 40px;
+      aspect-ratio: 3/1;
+      object-fit: cover;
+      display: block;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+      transition: transform 0.3s ease;
+    }
 
-header input[type="search"] {
-  flex-grow: 1;
-  height: 30px;
-  border-radius: 5px;
-  border: none;
-  padding: 0 10px;
-  font-size: 1rem;
-}
+    header .title img:hover {
+      transform: scale(1.05);
+    }
 
-header input[type="search"]:focus {
-  outline: 2px solid #3498db;
-}
+    /* Input con efecto glass */
+    header input[type="search"] {
+      flex-grow: 1;
+      height: 35px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 0 15px;
+      font-size: 1rem;
+      
+      /* Efecto glass en el input */
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: white;
+      
+      transition: all 0.3s ease;
+    }
 
-/* RESPONSIVE MOBILE */
-@media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    align-items: center;  /* Centra todo horizontal */
-    height: auto;
-    padding: 10px 15px;
-  }
+    header input[type="search"]::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
 
-  header .title {
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 10px;
-  }
+    header input[type="search"]:focus {
+      outline: none;
+      border: 2px solid rgba(52, 152, 219, 0.6);
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 20px rgba(52, 152, 219, 0.3);
+      transform: scale(1.02);
+    }
 
-  header .title img {
-    height: 50px;         /* ALTURA para móvil */
-    width: auto;
-  }
+    /* Enlace de la tienda con efecto glass */
+    .store-link {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
 
-  header input[type="search"] {
-    width: 100%;
-    flex-grow: 0;
-  }
-}
+    .store-link:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    /* RESPONSIVE MOBILE */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+        padding: 15px;
+        border-radius: 0 0 25px 25px;
+      }
+
+      header .title {
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 15px;
+      }
+
+      header .title img {
+        height: 35px;
+        width: auto;
+      }
+
+      header input[type="search"] {
+        width: 100%;
+        flex-grow: 0;
+        margin-bottom: 10px;
+      }
+
+      .store-link {
+        padding: 10px 20px;
+        border-radius: 20px;
+      }
+    }
+
+    /* Contenido de ejemplo para mostrar el efecto */
+    .content {
+      margin-top: 100px;
+      padding: 40px;
+      color: white;
+      text-align: center;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 20px auto;
+      max-width: 600px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
 
 
  /* Marcadores */
@@ -126,9 +219,7 @@ header input[type="search"]:focus {
     <img src="/assets/images/textTRP.svg" alt="Logo">
   </div>
   <input id="searchInput" type="search" placeholder="Buscar producto..." />
-  <a href="https://astroweb.store" target="_blank" class="store-link">
-    ᗩᔕ༒尺۝
-  </a>
+ 
 </header>
 
 <style>
@@ -165,127 +256,564 @@ header .store-link:hover {
 
   <div id="map"></div>
 
-<div id="legend">
-  <div id="legend-header" style="cursor: pointer;" draggable="false">
-    <strong>Marcadores (minimizar)</strong><br><br>
+<!-- CSS MARCADORES LEYENDAS DE MAPA  -->
+
+<div id="legend" class="glass-legend">
+  <div id="legend-header">
+    <div class="legend-header-inner">
+      <span>🗺️ Marcadores</span>
+      <span id="legend-toggle">▼</span>
+    </div>
   </div>
+
   <div id="legend-content">
-    <div data-cat="emprendedores">
-      <span style="display:inline-block;width:12px;height:12px;background:#3498db;margin-right:5px;" draggable="false"></span> Emprendedor
+    <div data-cat="emprendedores" class="legend-item blue">
+      <span class="legend-dot"></span>
+      <span class="legend-text">Emprendedor</span>
     </div>
-    <div data-cat="clientes">
-      <span style="display:inline-block;width:12px;height:12px;background:#e74c3c;margin-right:5px;" draggable="false"></span> Cliente
+    
+    <div data-cat="clientes" class="legend-item red">
+      <span class="legend-dot"></span>
+      <span class="legend-text">Cliente</span>
     </div>
-    <div data-cat="proveedores">
-      <span style="display:inline-block;width:12px;height:12px;background:#2ecc71;margin-right:5px;" draggable="false"></span> Proveedor
+    
+    <div data-cat="proveedores" class="legend-item green">
+      <span class="legend-dot"></span>
+      <span class="legend-text">Proveedor</span>
     </div>
-    <div data-cat="premium">
-      <span style="display:inline-block;width:12px;height:12px;background:#f1c40f;margin-right:5px;" draggable="false"></span> Premium
+    
+    <div data-cat="premium" class="legend-item yellow">
+      <span class="legend-dot"></span>
+      <span class="legend-text">Premium ✨</span>
     </div>
-    <hr style="border: 0; border-top: 1px solid #555;">
-    <div data-cat="all"><strong>Mostrar Todos</strong></div>
+    
+    <div class="legend-divider"></div>
+    
+    <div data-cat="all" class="legend-item all">
+      <span>🌟</span>
+      <span>Mostrar Todos</span>
+    </div>
   </div>
 </div>
+
+<style>
+/* Glassmorphism container */
+#legend.glass-legend {
+  background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.25);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  width: 220px;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  transition: all 0.4s ease;
+}
+
+/* Header */
+#legend-header {
+  cursor: pointer;
+  padding: 10px 12px;
+  font-weight: 600;
+  font-size: 12px;
+  user-select: none;
+  color: #fff;
+  background: linear-gradient(135deg, rgba(59,130,246,0.5), rgba(29,78,216,0.5));
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#legend-header:hover {
+  background: linear-gradient(135deg, rgba(37,99,235,0.6), rgba(30,64,175,0.6));
+}
+
+/* Items */
+.legend-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 8px;
+  margin: 2px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: all 0.3s ease, transform 0.2s ease;
+}
+
+.legend-item:hover {
+  transform: translateX(2px);
+  background: rgba(255,255,255,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.legend-item.blue .legend-dot { background: linear-gradient(135deg,#3b82f6,#1d4ed8);}
+.legend-item.red .legend-dot { background: linear-gradient(135deg,#ef4444,#dc2626);}
+.legend-item.green .legend-dot { background: linear-gradient(135deg,#10b981,#059669);}
+.legend-item.yellow .legend-dot { background: linear-gradient(135deg,#f59e0b,#d97706);}
+
+/* Divider */
+.legend-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  margin: 8px 0;
+}
+
+/* All button */
+.legend-item.all {
+  justify-content: center;
+  background: rgba(99,102,241,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  font-weight: 600;
+  color: #fff;
+}
+
+.legend-item.all:hover {
+  transform: scale(1.02);
+  background: rgba(99,102,241,0.15);
+}
+
+/* Toggle */
+#legend.minimized #legend-content {
+  max-height: 0;
+  padding: 0 10px;
+  opacity: 0;
+}
+
+#legend.minimized #legend-toggle {
+  transform: rotate(-90deg);
+}
+
+/* Responsive móvil */
+@media (max-width: 768px) {
+  #legend.glass-legend { width: 160px; font-size: 11px; }
+  .legend-item { padding: 4px 6px; font-size: 11px; }
+  .legend-dot { width: 8px; height: 8px; margin-right: 5px; }
+  #legend-header { font-size: 11px; padding: 8px 10px; }
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  #legend.glass-legend {
+    background: linear-gradient(135deg, rgba(31,41,55,0.3), rgba(31,41,55,0.1));
+    border-color: rgba(255,255,255,0.08);
+  }
+  .legend-text, .legend-item.all { color: #fff; }
+}
+</style>
+
+<script>
+document.getElementById('legend-header').addEventListener('click', function() {
+  const legend = document.getElementById('legend');
+  const toggle = document.getElementById('legend-toggle');
+  legend.classList.toggle('minimized');
+  toggle.textContent = legend.classList.contains('minimized') ? '▶' : '▼';
+});
+</script>
+
+<!-- CSS MARCADORES LEYENDAS DE MAPA  -->
 
 
 <!-- pop up json -->
 
 
-<!-- Modal HTML -->
+<!-- Modal HTML //new -->
 <div id="customModal" style="
   display: none; 
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
   z-index: 3500;
   justify-content: center;
   align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeIn 0.3s ease-out forwards;
 ">
   <div style="
     background: #fff;
     color: #000;
-    padding: 20px;
-    border-radius: 8px;
+    padding: 30px;
+    border-radius: 16px;
     max-width: 90%;
     max-height: 90%;
     overflow: auto;
     position: relative;
+    box-shadow: 
+      0 25px 50px -12px rgba(0, 0, 0, 0.25),
+      0 0 0 1px rgba(255, 255, 255, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transform: scale(0.9) translateY(20px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideIn 0.3s ease-out 0.1s forwards;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
   ">
     <button id="closeModal" style="
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 15px;
+      right: 15px;
       border: none;
-      background: #333;
-      color: #fff;
-      padding: 5px 10px;
+      background: rgba(0, 0, 0, 0.05);
+      color: #666;
+      padding: 8px;
       cursor: pointer;
-    ">Cerrar</button>
-    <div id="modalContent"></div>
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: bold;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    " onmouseover="this.style.background='rgba(239, 68, 68, 0.1)'; this.style.color='#ef4444'; this.style.transform='scale(1.05)'" 
+       onmouseout="this.style.background='rgba(0, 0, 0, 0.05)'; this.style.color='#666'; this.style.transform='scale(1)'"
+       onmousedown="this.style.transform='scale(0.95)'"
+       onmouseup="this.style.transform='scale(1.05)'">×</button>
+    <div id="modalContent" style="
+      margin-top: 10px;
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    "></div>
   </div>
 </div>
 
+<style>
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    visibility: hidden;
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}
 
-<!-- Modal formulario -->
+@keyframes slideIn {
+  from {
+    transform: scale(0.9) translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+#customModal[style*="display: flex"] {
+  display: flex !important;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Smooth scrollbar */
+#customModal div:first-child {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+#customModal div:first-child::-webkit-scrollbar {
+  width: 6px;
+}
+
+#customModal div:first-child::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#customModal div:first-child::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+#customModal div:first-child::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  #customModal > div {
+    margin: 20px;
+    max-width: calc(100% - 40px);
+    max-height: calc(100% - 40px);
+    padding: 24px;
+  }
+  
+  #closeModal {
+    top: 12px !important;
+    right: 12px !important;
+  }
+}
+
+/* Focus styles for accessibility */
+#closeModal:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  #customModal > div {
+    background: rgba(17, 24, 39, 0.95) !important;
+    color: #f9fafb !important;
+    border: 1px solid rgba(75, 85, 99, 0.3) !important;
+  }
+  
+  #closeModal {
+    background: rgba(75, 85, 99, 0.2) !important;
+    color: #9ca3af !important;
+    border: 1px solid rgba(75, 85, 99, 0.3) !important;
+  }
+}
+</style>
+
+<!-- Modal HTML //new -->
+
+
+<!-- Modal formulario REGISTRAR EMPRENDIMIENTO -->
 <div id="formularioModal" style="
   display: none;
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
   z-index: 4000;
   justify-content: center;
   align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeIn 0.3s ease-out forwards;
 ">
   <div style="
     background: #fff;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 16px;
     max-width: 90%;
     max-height: 90%;
     overflow-y: auto;
     position: relative;
+    box-shadow: 
+      0 25px 50px -12px rgba(0, 0, 0, 0.25),
+      0 0 0 1px rgba(255, 255, 255, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transform: scale(0.9) translateY(20px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideIn 0.3s ease-out 0.1s forwards;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
   ">
     <button id="closeFormularioModal" style="
       position: absolute;
-      top: 10px; right: 10px;
-      border: none; background: #333;
-      color: #fff; padding: 5px 10px; cursor: pointer;
-    ">Cerrar</button>
+      top: 15px;
+      right: 15px;
+      border: none;
+      background: rgba(0, 0, 0, 0.05);
+      color: #666;
+      padding: 8px;
+      cursor: pointer;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: bold;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    " onmouseover="this.style.background='rgba(239, 68, 68, 0.1)'; this.style.color='#ef4444'; this.style.transform='scale(1.05)'" 
+       onmouseout="this.style.background='rgba(0, 0, 0, 0.05)'; this.style.color='#666'; this.style.transform='scale(1)'"
+       onmousedown="this.style.transform='scale(0.95)'"
+       onmouseup="this.style.transform='scale(1.05)'">×</button>
 
-    <h2>Registrar nuevo emprendimiento</h2>
+    <h2 style="
+      margin: 0 0 24px 0;
+      color: #1f2937;
+      font-size: 24px;
+      font-weight: 700;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    ">Registrar nuevo <br>emprendimiento</h2>
 
-    <form id="emprendimientoForm" action="https://formspree.io/f/xanyzqej" method="POST">
-      <label>Tu nombre:<br><input type="text" name="nombre_usuario" required></label><br><br>
-      <label>Link perfil emprendimiento:<br><input type="url" name="link_perfil" required></label><br><br>
-      <label>Nombre del emprendimiento:<br><input type="text" name="nombre_emprendimiento" required></label><br><br>
+    <form id="emprendimientoForm" action="https://formspree.io/f/xanyzqej" method="POST" style="
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    ">
+      <label style="
+        display: block;
+        margin-bottom: 16px;
+        font-weight: 500;
+        color: #374151;
+        font-size: 14px;
+      ">Tu nombre:<br>
+        <input type="text" name="nombre_usuario" required>
+      </label>
 
-      <h3>Producto 1</h3>
+      <label style="
+        display: block;
+        margin-bottom: 16px;
+        font-weight: 500;
+        color: #374151;
+        font-size: 14px;
+      ">Link perfil emprendimiento:<br>
+        <input type="url" name="link_perfil" required>
+      </label>
+
+      <label style="
+        display: block;
+        margin-bottom: 24px;
+        font-weight: 500;
+        color: #374151;
+        font-size: 14px;
+      ">Nombre del emprendimiento:<br>
+        <input type="text" name="nombre_emprendimiento" required>
+      </label>
+
+      <h3 style="
+        margin: 32px 0 16px 0;
+        color: #1f2937;
+        font-size: 18px;
+        font-weight: 600;
+        padding: 12px 0;
+        border-bottom: 2px solid #e5e7eb;
+        position: relative;
+      ">Producto 1
+        <span style="
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 60px;
+          height: 2px;
+          background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        "></span>
+      </h3>
+      
       <div id="productosContainer">
-        <div class="producto-item">
-          <label>Link producto externo (opcional):<br><input type="url" name="producto1_link"></label><br><br>
-          <label>Precio:<br><input type="number" step="0.01" name="producto1_precio" required></label><br><br>
-          <label>Link imagen:<br><input type="url" name="producto1_imagen" required></label><br><br>
-          <label>Título:<br><input type="text" name="producto1_titulo" required></label><br><br>
-          <label>Descripción:<br><textarea name="producto1_descripcion" rows="3" required></textarea></label><br><br>
+        <div class="producto-item" style="
+          background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+          padding: 20px;
+          border-radius: 12px;
+          border: 1px solid rgba(0, 0, 0, 0.05);
+          margin-bottom: 16px;
+        ">
+          <label>Link producto externo (opcional):<br>
+            <input type="url" name="producto1_link">
+          </label>
+
+          <label>Precio:<br>
+            <input type="number" step="0.01" name="producto1_precio" required>
+          </label>
+
+          <label>Link imagen:<br>
+            <input type="url" name="producto1_imagen" required>
+          </label>
+
+          <label>Título:<br>
+            <input type="text" name="producto1_titulo" required>
+          </label>
+
+          <label>Descripción:<br>
+            <textarea name="producto1_descripcion" rows="3" required></textarea>
+          </label>
         </div>
       </div>
 
-      <button type="button" id="agregarProductoBtn"
-        style="padding: 5px 10px; background: #3498db; color: #fff; border: none; cursor: pointer;">
+      <button type="button" id="agregarProductoBtn" style="
+        padding: 12px 20px;
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        margin-bottom: 24px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+      " onmouseover="this.style.background='linear-gradient(135deg, #2563eb, #1e40af)'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 6px 16px rgba(59, 130, 246, 0.3)'"
+         onmouseout="this.style.background='linear-gradient(135deg, #3b82f6, #1d4ed8)'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(59, 130, 246, 0.2)'"
+         onmousedown="this.style.transform='scale(0.98)'"
+         onmouseup="this.style.transform='translateY(-1px)'">
         ➕ Agregar otro producto
-      </button><br><br>
+      </button>
 
+      <h3 style="
+        margin: 32px 0 16px 0;
+        color: #1f2937;
+        font-size: 18px;
+        font-weight: 600;
+        padding: 12px 0;
+        border-bottom: 2px solid #e5e7eb;
+        position: relative;
+      ">Redes Sociales
+        <span style="
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 60px;
+          height: 2px;
+          background: linear-gradient(90deg, #10b981, #059669);
+        "></span>
+      </h3>
 
-      <h3>Redes Sociales</h3>
-      <label>WhatsApp (obligatorio):<br><input type="tel" name="whatsapp" required></label><br><br>
-      <label>Instagram:<br><input type="url" name="instagram"></label><br><br>
-      <label>Facebook:<br><input type="url" name="facebook"></label><br><br>
+      <label>WhatsApp (obligatorio):<br>
+        <input type="tel" name="whatsapp" required>
+      </label>
+
+      <label>Instagram:<br>
+        <input type="url" name="instagram">
+      </label>
+
+      <label>Facebook:<br>
+        <input type="url" name="facebook">
+      </label>
 
       <input type="hidden" name="latitud" id="latInput">
       <input type="hidden" name="longitud" id="lngInput">
 
-      <button type="submit"
-        style="padding: 10px 20px; background: #2ecc71; color: #fff; border: none; cursor: pointer;">
+      <button type="submit" style="
+        padding: 14px 28px;
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        width: 100%;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        margin-top: 8px;
+      " onmouseover="this.style.background='linear-gradient(135deg, #059669, #047857)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(16, 185, 129, 0.4)'"
+         onmouseout="this.style.background='linear-gradient(135deg, #10b981, #059669)'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(16, 185, 129, 0.3)'"
+         onmousedown="this.style.transform='scale(0.98)'"
+         onmouseup="this.style.transform='translateY(-2px)'">
         Enviar
       </button>
     </form>
@@ -293,40 +821,495 @@ header .store-link:hover {
   
 </div>
 
+<style>
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    visibility: hidden;
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: scale(0.9) translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+#formularioModal[style*="display: flex"] {
+  display: flex !important;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Smooth scrollbar */
+#formularioModal > div {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+#formularioModal > div::-webkit-scrollbar {
+  width: 6px;
+}
+
+#formularioModal > div::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#formularioModal > div::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+#formularioModal > div::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Global input and textarea styles */
+#formularioModal input[type="text"],
+#formularioModal input[type="url"], 
+#formularioModal input[type="number"],
+#formularioModal input[type="tel"],
+#formularioModal textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  background: #fafafa;
+  margin-top: 6px;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+#formularioModal .producto-item input[type="text"],
+#formularioModal .producto-item input[type="url"], 
+#formularioModal .producto-item input[type="number"],
+#formularioModal .producto-item textarea {
+  background: #fff;
+}
+
+#formularioModal textarea {
+  resize: vertical;
+}
+
+/* Focus states for all inputs */
+#formularioModal input[type="text"]:focus,
+#formularioModal input[type="url"]:focus,
+#formularioModal input[type="number"]:focus,
+#formularioModal input[type="tel"]:focus,
+#formularioModal textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: #fff;
+  outline: none;
+}
+
+/* Special focus colors for specific fields */
+#formularioModal input[name="whatsapp"]:focus {
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important;
+}
+
+#formularioModal input[name="instagram"]:focus {
+  border-color: #ec4899 !important;
+  box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1) !important;
+}
+
+#formularioModal input[name="facebook"]:focus {
+  border-color: #1877f2 !important;
+  box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.1) !important;
+}
+
+/* Input validation styles */
+#formularioModal input:invalid, 
+#formularioModal textarea:invalid {
+  border-color: #ef4444 !important;
+}
+
+#formularioModal input:valid, 
+#formularioModal textarea:valid {
+  border-color: #10b981 !important;
+}
+
+/* Labels styling */
+#formularioModal label {
+  display: block;
+  margin-bottom: 16px;
+  font-weight: 500;
+  color: #374151;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Focus styles for accessibility */
+#closeFormularioModal:focus,
+#agregarProductoBtn:focus,
+button[type="submit"]:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  #formularioModal > div {
+    margin: 20px;
+    max-width: calc(100% - 40px);
+    max-height: calc(100% - 40px);
+  }
+  
+  #closeFormularioModal {
+    top: 12px !important;
+    right: 12px !important;
+  }
+}
+
+/* Dark mode support for inputs */
+@media (prefers-color-scheme: dark) {
+  #formularioModal > div {
+    background: rgba(17, 24, 39, 0.95) !important;
+    color: #f9fafb !important;
+    border: 1px solid rgba(75, 85, 99, 0.3) !important;
+  }
+  
+  #formularioModal h2 {
+    color: #f9fafb !important;
+  }
+  
+  #formularioModal h3 {
+    color: #f9fafb !important;
+    border-bottom-color: rgba(75, 85, 99, 0.3) !important;
+  }
+  
+  #formularioModal label {
+    color: #d1d5db !important;
+  }
+  
+  #formularioModal input[type="text"],
+  #formularioModal input[type="url"], 
+  #formularioModal input[type="number"],
+  #formularioModal input[type="tel"],
+  #formularioModal textarea {
+    background: rgba(31, 41, 55, 0.8) !important;
+    color: #f9fafb !important;
+    border-color: rgba(75, 85, 99, 0.3) !important;
+  }
+  
+  #formularioModal .producto-item {
+    background: rgba(31, 41, 55, 0.3) !important;
+    border-color: rgba(75, 85, 99, 0.2) !important;
+  }
+  
+  #closeFormularioModal {
+    background: rgba(75, 85, 99, 0.2) !important;
+    color: #9ca3af !important;
+    border: 1px solid rgba(75, 85, 99, 0.3) !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  #formularioModal,
+  #formularioModal > div,
+  #formularioModal button,
+  #formularioModal input,
+  #formularioModal textarea {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style>
+
 <!-- css productos json -->
 
 <style>
+/* CSS DE PRODUCTOS DENTRO DE MODAL PERFIL*/
+
 .productos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-}
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+            animation: fadeInUp 0.6s ease-out;
+        }
 
-.producto {
-  border: 1px solid #ccc;
-  padding: 10px;
-}
+        .producto {
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 0;
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.04),
+                0 1px 2px rgba(0, 0, 0, 0.06);
+            cursor: pointer;
+            transform: translateY(0);
+            backdrop-filter: blur(10px);
+        }
 
-.producto img {
-  aspect-ratio: 1/1;
-  width: 100%;
-  max-width: 200px;
-  display: block;
-  object-fit: cover; 
-}
+        .producto:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.12),
+                0 8px 16px rgba(0, 0, 0, 0.08),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            border-color: rgba(59, 130, 246, 0.15);
+        }
+
+        .producto::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: left;
+        }
+
+        .producto:hover::before {
+            transform: scaleX(1);
+        }
+
+        .producto::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.1) 0%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .producto:hover::after {
+            opacity: 1;
+        }
+
+        .producto-image-container {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+        }
+
+        .producto img {
+            aspect-ratio: 1/1;
+            width: 100%;
+            max-width: 200px;
+            display: block;
+            object-fit: cover;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: brightness(1) saturate(1);
+        }
+
+        .producto:hover img {
+            transform: scale(1.1);
+            filter: brightness(1.05) saturate(1.1);
+        }
+
+        .producto-content {
+            padding: 10px;
+            position: relative;
+            background: linear-gradient(180deg, 
+                rgba(255, 255, 255, 0.9) 0%,
+                rgba(255, 255, 255, 1) 100%);
+        }
+
+        .producto-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0 0 8px 0;
+            line-height: 1.4;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            transition: color 0.2s ease;
+        }
+
+        .producto:hover .producto-title {
+            color: #3b82f6;
+        }
+
+        .producto-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #059669;
+            margin: 12px 0 0 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .producto-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(10px);
+            transform: translateY(-10px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .producto:hover .producto-badge {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Skeleton loading animation */
+        .producto.loading {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .producto.loading::before {
+            display: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Staggered animation for products */
+        .producto:nth-child(1) { animation-delay: 0.1s; }
+        .producto:nth-child(2) { animation-delay: 0.2s; }
+        .producto:nth-child(3) { animation-delay: 0.3s; }
+        .producto:nth-child(4) { animation-delay: 0.4s; }
+        .producto:nth-child(5) { animation-delay: 0.5s; }
+        .producto:nth-child(6) { animation-delay: 0.6s; }
+
+        .producto {
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        /* Responsive improvements */
+        @media (min-width: 768px) {
+            .productos-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .producto {
+                background: rgba(17, 24, 39, 0.8);
+                border-color: rgba(75, 85, 99, 0.3);
+                backdrop-filter: blur(20px);
+            }
+            
+            .producto:hover {
+                border-color: rgba(59, 130, 246, 0.4);
+                box-shadow: 
+                    0 20px 40px rgba(0, 0, 0, 0.4),
+                    0 8px 16px rgba(0, 0, 0, 0.2);
+            }
+            
+            .producto-content {
+                background: linear-gradient(180deg, 
+                    rgba(17, 24, 39, 0.9) 0%,
+                    rgba(17, 24, 39, 1) 100%);
+            }
+            
+            .producto-title {
+                color: #f9fafb;
+            }
+            
+            .producto:hover .producto-title {
+                color: #60a5fa;
+            }
+            
+            .producto-image-container {
+                background: linear-gradient(135deg, #374151, #4b5563);
+            }
+        }
+
+        /* Focus states for accessibility */
+        .producto:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            .producto,
+            .producto img,
+            .producto::before,
+            .producto::after,
+            .productos-grid {
+                animation: none;
+                transition: none;
+            }
+            
+            .producto:hover {
+                transform: none;
+            }
+            
+            .producto:hover img {
+                transform: none;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .producto {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+            
+            .producto::before,
+            .producto::after {
+                display: none;
+            }
+        }
+/* CSS DE PRODUCTOS DENTRO DE MODAL PERFIL*/
 
 
-@media (min-width: 768px) {
-  .productos-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
+
+
 
 /* iconos mapa */
 .icon-premium {
   opacity: 0.7;
-  border-radius: 50%; /* 👈 Obliga forma circular */
-  object-fit: cover;  /* 👈 Recorta internamente */
+  border-radius: 50%; 
+  object-fit: cover;  
 }
 
 /* botones modal */
