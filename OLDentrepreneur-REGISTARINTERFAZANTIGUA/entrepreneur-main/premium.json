@@ -1,0 +1,13 @@
+[
+  {
+    "nombre": "Diego Ancheta",
+    "producto": "Microsoft Office",
+    "lat": 13.720195,
+    "lng": -89.204476,
+    "ig": "https://www.instagram.com/lil.diogo",
+    "facebook": "https://www.facebook.com/marketplace/profile/100009227360806/",
+    "icono": "/assets/productos/premium/diogo-office/officewin.jpg",
+    "perfil": "/assets/productos/premium/diogo-office/papi.jpg",
+    "detalle": "<p>Microsoft Office para Windows y Mac.</p>\n<div class='productos-grid'>\n  <div class='producto'>\n    <h4> Microsoft Office Windows</h4>\n    <img src='/assets/productos/premium/diogo-office/officewin.jpg' alt='Producto 1'>\n    <p>Office 365.</p>\n    <a href='https://www.facebook.com/marketplace/item/4017053778608202/' target='_blank'>Ver más</a>\n  </div>\n  <div class='producto'>\n    <h4> Microsoft Office Mac </h4>\n    <img src='/assets/productos/premium/diogo-office/mac.jpg' alt='Microsoft Office Mac'>\n    <p>Office 2024.</p>\n    <a href='https://www.facebook.com/marketplace/item/1148981487045101/' target='_blank'>Ver más</a>\n  </div>\n</div>"
+  }
+]
