@@ -685,6 +685,7 @@ function calcularComisionCiclista(km) {
 
 // Evento click en el mapa (área vacía)
 map.on('click', function(e) {
+  
   const lat = e.latlng.lat.toFixed(6);
   const lng = e.latlng.lng.toFixed(6);
 
@@ -766,6 +767,16 @@ map.on('click', function(e) {
       ">
         ✅ Sí, agregar aquí
       </button>
+
+      <!-- ALERTA PROXIMAMENTE CLIENTE / PROVEEDOR -->
+
+      <a href="#" onclick="alert('Contacta astrowebpages@gmail.com para mas información (Suscripción próximamente)');"
+   style="display:block; margin-top:8px; text-align:center; font-size:13px; color:#059669; text-decoration:underline; cursor:pointer;">
+    Soy proveedor / cliente
+</a>
+
+
+
     </div>
   `;
   L.popup()
@@ -773,15 +784,16 @@ map.on('click', function(e) {
     .setContent(contenido)
     .openOn(map);
 
-  setTimeout(() => {
-    const btn = document.getElementById('agregarEmprendimientoBtn');
-    if (btn) {
-      btn.addEventListener('click', function() {
-        abrirFormularioEmprendimiento(lat, lng);
-        map.closePopup();
-      });
-    }
-  }, 10);
+  document.addEventListener('click', function (e) {
+  if (e.target && e.target.id === "agregarEmprendimientoBtn") {
+    abrirFormularioEmprendimiento(
+      e.target.getAttribute("data-lat"),
+      e.target.getAttribute("data-lng")
+    );
+    map.closePopup();
+  }
+});
+
 });
 
 
@@ -974,7 +986,7 @@ document.addEventListener('click', function(e) {
   
   if (e.target.id === 'btnUpgrade') {
     // AQUÍ PUEDES AGREGAR TU LÓGICA DE PAGO
-    alert('Aquí iría la integración con tu sistema de pagos');
+    alert('Contacta astrowebpages@gmail.com para realizar tu compra ahora (Suscripción Próximamente) ');
     cerrarModalPago();
   }
 });

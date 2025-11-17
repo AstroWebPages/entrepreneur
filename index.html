@@ -833,6 +833,16 @@ document.getElementById('legend-header').addEventListener('click', function() {
         Enviar
       </button>
     </form>
+    <script>
+document.getElementById("emprendimientoForm").addEventListener("submit", function(e) {
+    e.preventDefault(); // Evita que se envíe a Formspree
+
+    alert("¡Aparecerás en el mapa en 24 Horas Máximo!\n✅ Gracias por compartir tu emprendimiento. ");
+
+    // Opcional: limpiar el formulario
+    this.reset();
+});
+</script>
   </div>
   
 </div>
