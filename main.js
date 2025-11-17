@@ -681,8 +681,10 @@ function calcularComisionCiclista(km) {
 }
 
 
+let lastLat = null;
+let lastLng = null;
 
-
+// CLICK MAPA - BETA
 // Evento click en el mapa (área vacía)
 map.on('click', function(e) {
   
@@ -740,7 +742,8 @@ map.on('click', function(e) {
         ">📍 ${lat} | ${lng}</p>
       </div>
       
-      <button id="agregarEmprendimientoBtn" style="
+      <button id="agregarEmprendimientoBtn" data-lat="${lat}"
+        data-lng="${lng}" style="
         padding: 10px 18px;
         background: linear-gradient(135deg, #10b981, #059669);
         color: #fff;
@@ -784,6 +787,9 @@ map.on('click', function(e) {
     .setContent(contenido)
     .openOn(map);
 
+
+
+
   document.addEventListener('click', function (e) {
   if (e.target && e.target.id === "agregarEmprendimientoBtn") {
     abrirFormularioEmprendimiento(
@@ -796,7 +802,7 @@ map.on('click', function(e) {
 
 });
 
-
+//TOMAR LONGITUD 
 
 // Función abrir formulario emprendimiento
 function abrirFormularioEmprendimiento(lat, lng) {
@@ -805,6 +811,7 @@ function abrirFormularioEmprendimiento(lat, lng) {
   document.getElementById('latInput').value = lat;
   document.getElementById('lngInput').value = lng;
 }
+
 
 document.getElementById('closeFormularioModal').addEventListener('click', function() {
   document.getElementById('formularioModal').style.display = 'none';

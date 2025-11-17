@@ -673,7 +673,7 @@ document.getElementById('legend-header').addEventListener('click', function() {
       background-clip: text;
     ">Registrar nuevo <br>emprendimiento</h2>
 
-    <form id="emprendimientoForm" action="https://formspree.io/f/xanyzqej" method="POST" style="
+    <form id="emprendimientoForm" action="https://formspree.io/f/xnnlwpgl" method="POST" style="
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     ">
       <label style="
@@ -833,16 +833,17 @@ document.getElementById('legend-header').addEventListener('click', function() {
         Enviar
       </button>
     </form>
-    <script>
+<script>
 document.getElementById("emprendimientoForm").addEventListener("submit", function(e) {
-    e.preventDefault(); // Evita que se envíe a Formspree
+    e.preventDefault(); // Detenemos envío momentáneamente
 
-    alert("¡Aparecerás en el mapa en 24 Horas Máximo!\n✅ Gracias por compartir tu emprendimiento. ");
+    alert("¡Aparecerás en el mapa en 24 Horas Máximo!\n✅ Gracias por compartir tu emprendimiento.");
 
-    // Opcional: limpiar el formulario
-    this.reset();
+    // Después del alert, enviamos el formulario manualmente
+    this.submit();
 });
 </script>
+
   </div>
   
 </div>
