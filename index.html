@@ -834,15 +834,26 @@ document.getElementById('legend-header').addEventListener('click', function() {
       </button>
     </form>
 <script>
-document.getElementById("emprendimientoForm").addEventListener("submit", function(e) {
-    e.preventDefault(); // Detenemos envío momentáneamente
+document.getElementById("emprendimientoForm").addEventListener("submit", async function(e) {
+    e.preventDefault(); // Evita el envío clásico
 
-    alert("¡Aparecerás en el mapa en 24 Horas Máximo!\n✅ Gracias por compartir tu emprendimiento.");
+    const form = e.target;
+    const data = new FormData(form);
 
-    // Después del alert, enviamos el formulario manualmente
-    this.submit();
+    // Enviar a Formspree SIN cambiar de página
+    await fetch("https://formspree.io/f/xnnlwpgl", {
+        method: "POST",
+        body: data,
+        headers: { "Accept": "application/json" }
+    });
+
+    alert("¡Aparecerás en el mapa en 24 horas máximo!\n✅ Gracias por compartir tu emprendimiento.");
+
+    // Opcional: Resetear el formulario
+    form.reset();
 });
 </script>
+
 
   </div>
   
